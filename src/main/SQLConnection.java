@@ -11,7 +11,7 @@ public class SQLConnection {
           return connection;
 
         }
-        catch (Exception e){
+        catch (Exception e) {
             System.out.println(e);
             return null;
         }
