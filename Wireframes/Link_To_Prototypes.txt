@@ -1,0 +1,7 @@
+Figma ProtoTypes Available:
+
+Admin 
+<https://www.figma.com/proto/SEGg240QzbQNeo2VhEWkZQ/FP_A2_Wireframes?node-id=4%3A5803&scaling=min-zoom&page-id=4%3A5802>
+
+Employee
+<https://www.figma.com/proto/SEGg240QzbQNeo2VhEWkZQ/FP_A2_Wireframes?node-id=4%3A10579&scaling=min-zoom&page-id=4%3A10568>
