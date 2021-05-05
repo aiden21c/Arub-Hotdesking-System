@@ -15,7 +15,7 @@ CREATE TABLE Employee (
 DROP TABLE IF EXISTS SecretQuestion; 
 
 CREATE TABLE SecretQuestion (
-    username INTEGER PRIMARY KEY,
+    username TEXT PRIMARY KEY,
     question TEXT NOT NULL,
     answer TEXT NOT NULL,
 
@@ -29,14 +29,28 @@ DROP TABLE IF EXISTS Seat;
 
 CREATE TABLE Seat (
     seatNo INTEGER PRIMARY KEY,
-    -- 0- Available; 1- Booked; 2- Blockout;
-    available INTEGER NOT NULL
+    blockOut BOOLEAN NOT NULL
 );
+
+DROP TABLE IF EXISTS BlockOut;
+
+CREATE TABLE BlockOut (
+      seatNo INTEGER NOT NULL ,
+      date DATE NOT NULL,
+
+      PRIMARY KEY (seatNo, date),
+
+      FOREIGN KEY (seatNo)
+          REFERENCES Seat (seatNo)
+          ON UPDATE CASCADE
+          ON DELETE CASCADE
+);
+
 
 DROP TABLE IF EXISTS WhiteList;
 
 CREATE TABLE WhiteList (
-    username INTEGER NOT NULL,
+    username TEXT NOT NULL,
     seatNo INTEGER NOT NULL,
 
     PRIMARY KEY (username, seatNo),
@@ -54,12 +68,13 @@ CREATE TABLE WhiteList (
 DROP TABLE IF EXISTS Booking;
 
 CREATE TABLE Booking (
-    bookingNo INTEGER PRIMARY KEY,
     seatNo INTEGER NOT NULL,
-    username INTEGER NOT NULL,
-    -- 0- Active; 1- Completed; 2- Cancelled;
-    active INTEGER NOT NULL, 
+    username TEXT NOT NULL,
+--  False if booking is active
+    pending BOOLEAN NOT NULL,
     date DATE NOT NULL,
+
+    PRIMARY KEY (username, seatNo),
 
     FOREIGN KEY (username)
         REFERENCES Employee (username)
@@ -69,5 +84,13 @@ CREATE TABLE Booking (
         REFERENCES Seat (seatNo)
             ON UPDATE CASCADE
             ON DELETE CASCADE
-
 );
+
+
+
+
+
+
+
+
+
