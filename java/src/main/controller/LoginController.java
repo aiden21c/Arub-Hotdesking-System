@@ -5,7 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
-import main.model.LoginModel;
+import main.model.interfacemodel.LoginModel;
 
 import java.net.URL;
 import java.sql.SQLException;
@@ -47,12 +47,4 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
-
-
-
-
-    //11.2.3 big sur
-
-
-
 }
