@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class SeatDAO extends AbstractDAO {
     private enum TableValues {SEATNO, BLOCKOUT}
 
-    public void addSeat(Seat seat) throws SQLException {
+    public void addSeat(Seat seat) throws SQLException, ClassNotFoundException {
         assert connection != null;
         String queryString = "INSERT INTO Seat(seatNo, blockOut) VALUES (?,?)";
 
@@ -28,7 +28,7 @@ public class SeatDAO extends AbstractDAO {
         Main.blockOutDAO.addDates(seat);
     }
 
-    public Seat createSeat(int seatNo) throws SQLException {
+    public Seat createSeat(int seatNo) throws SQLException, ClassNotFoundException {
         assert connection != null;
         PreparedStatement ps;
         ResultSet rs;
@@ -46,7 +46,7 @@ public class SeatDAO extends AbstractDAO {
         return new Seat(seatNo, blockOut, getBlockOut(seatNo));
     }
 
-    private ArrayList<LocalDate> getBlockOut(int seatNo) throws SQLException {
+    private ArrayList<LocalDate> getBlockOut(int seatNo) throws SQLException, ClassNotFoundException {
         return Main.blockOutDAO.createDates(seatNo);
     }
 }

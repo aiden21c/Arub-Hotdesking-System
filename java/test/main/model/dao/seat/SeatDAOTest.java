@@ -8,24 +8,24 @@ import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BlockOutDAOTest {
+public class SeatDAOTest {
 
     @Test
-    @DisplayName("Should accurately add dates to the database")
-    void testAddDatesAndGetDates() throws SQLException, ClassNotFoundException {
-        int seatNo = 1;
+    @DisplayName("Should add a new seat to the database, and retrieve the seat from the database")
+    void testAddSeatandGetSeat() throws SQLException, ClassNotFoundException {
+        int seatNo = 7;
         ArrayList<LocalDate> blockDates = new ArrayList<>();
         blockDates.add(LocalDate.of(2021, 06, 14));
         blockDates.add(LocalDate.of(2021, 07, 15));
         Seat seat = new Seat(seatNo, false, blockDates);
 
-        Main.blockOutDAO.addDates(seat);
+        Main.seatDAO.addSeat(seat);
+        Seat seatTest = Main.seatDAO.createSeat(seatNo);
 
-        ArrayList<LocalDate> blockDatesTest = Main.blockOutDAO.createDates(seatNo);
-
-        assertEquals(blockDates, blockDatesTest, "Should be equal if added to database and retrieved");
+        assertEquals(seat, seatTest, "Should be equal if added to database and retrieved");
     }
 }

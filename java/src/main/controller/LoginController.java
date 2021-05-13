@@ -43,7 +43,7 @@ public class LoginController implements Initializable {
             }else{
                 isConnected.setText("username and password is incorrect");
             }
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }

@@ -48,7 +48,7 @@ public class UserDAO extends AbstractDAO {
         Main.whiteListDAO.addWhiteList(user);
     }
 
-    public User createUser(String user) throws SQLException {
+    public User createUser(String user) throws SQLException, ClassNotFoundException {
         User userObject = null;
         ResultSet rs = checkLogin(user);
 

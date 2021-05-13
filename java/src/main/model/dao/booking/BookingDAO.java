@@ -5,6 +5,7 @@ import main.model.dao.AbstractDAO;
 import main.model.object.booking.Booking;
 import main.model.object.booking.Seat;
 import main.model.object.user.User;
+import main.model.utilities.Utilities;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -19,20 +20,20 @@ public class BookingDAO extends AbstractDAO {
 
     public void addBooking(Booking booking) throws SQLException {
         assert connection != null;
-        String queryString = "INSERT INTO Booking(seatno, username, pending, date) VALUES (?,?,?,?)";
+        String queryString = "INSERT INTO Booking(seatno, username, pending, date) VALUES (?,?,?,DATE(?))";
 
         PreparedStatement ps = connection.prepareStatement(queryString);
 
         ps.setInt(TableValues.SEATNO.ordinal() + 1, booking.getSeat().getSeatNo());
         ps.setString(TableValues.USERNAME.ordinal() + 1, booking.getUser().getUsername());
         ps.setBoolean(TableValues.PENDING.ordinal() + 1, booking.getPending());
-        ps.setDate(TableValues.DATE.ordinal() + 1, Date.valueOf(booking.getDate()));
+        ps.setString(TableValues.DATE.ordinal() + 1, booking.getDate().toString());
 
         ps.execute();
         ps.close();
     }
 
-    public Booking createBooking(int seatNo, String username) throws SQLException {
+    public Booking createBooking(int seatNo, String username) throws SQLException, ClassNotFoundException {
         PreparedStatement ps;
         ResultSet rs;
         String queryString = "select * from Booking where seatNo = ? and username = ?";
@@ -43,8 +44,7 @@ public class BookingDAO extends AbstractDAO {
         rs = ps.executeQuery();
 
         boolean pending = rs.getBoolean("pending");
-        Date input = rs.getDate("date");
-        LocalDate date = input.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate date = Utilities.stringToDate(rs.getString("date"));
 
         ps.close();
         rs.close();

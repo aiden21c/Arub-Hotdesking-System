@@ -28,7 +28,7 @@ public class WhiteListDAO extends AbstractDAO {
         ps.close();
     }
 
-    protected ArrayList<Seat> getWhiteList(String username) throws SQLException {
+    protected ArrayList<Seat> getWhiteList(String username) throws SQLException, ClassNotFoundException {
         assert connection != null;
         ArrayList<Seat> whitelist = new ArrayList<>();
         PreparedStatement ps;

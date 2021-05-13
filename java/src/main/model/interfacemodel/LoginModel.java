@@ -31,7 +31,7 @@ public class LoginModel {
         }
     }
 
-    public Boolean isLogin(String user, String pass) throws SQLException {
+    public Boolean isLogin(String user, String pass) throws SQLException, ClassNotFoundException {
         boolean login = false;
         User userObject = Main.userDAO.createUser(user);
 
