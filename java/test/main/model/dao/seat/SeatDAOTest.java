@@ -1,7 +1,7 @@
 package main.model.dao.seat;
 
 import main.Main;
-import main.model.object.booking.Seat;
+import main.model.object.seat.Seat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +25,6 @@ public class SeatDAOTest {
         Main.seatDAO.addSeat(seat);
         Seat seatTest = Main.seatDAO.createSeat(seatNo);
 
-        assertEquals(seat, seatTest, "Should be equal if added to database and retrieved");
+        assertTrue(seat.equals(seatTest), "Should be equal if added to database and retrieved");
     }
 }

@@ -1,7 +1,7 @@
 package main.model.dao.user;
 
 import main.Main;
-import main.model.object.booking.Seat;
+import main.model.object.seat.Seat;
 import main.model.object.user.Employee;
 import main.model.object.user.User;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +32,9 @@ class SecretQuestionDAOTest {
 
         String[] secretQuestionTest = Main.secretQuestionDAO.getTable(username);
 
-        assertEquals(secretQuestion, secretQuestionTest, "Should be equal if added to database and retrieved");
+        assertEquals(secretQuestion[0], secretQuestionTest[0], "Should be equal if added to database and retrieved");
+        assertEquals(secretQuestion[1], secretQuestionTest[1], "Should be equal if added to database and retrieved");
+
     }
 
 }

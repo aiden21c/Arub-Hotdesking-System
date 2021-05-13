@@ -1,6 +1,6 @@
 package main.model.object.user;
 
-import main.model.object.booking.Seat;
+import main.model.object.seat.Seat;
 
 import java.util.ArrayList;
 

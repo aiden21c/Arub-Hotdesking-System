@@ -2,7 +2,7 @@ package main.model.dao.user;
 
 import main.Main;
 import main.model.dao.AbstractDAO;
-import main.model.object.booking.Seat;
+import main.model.object.seat.Seat;
 import main.model.object.user.User;
 
 import java.sql.PreparedStatement;

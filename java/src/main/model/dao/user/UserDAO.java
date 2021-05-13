@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import main.Main;
 import main.model.dao.AbstractDAO;
-import main.model.object.booking.Seat;
+import main.model.object.seat.Seat;
 import main.model.object.user.Admin;
 import main.model.object.user.Employee;
 import main.model.object.user.User;

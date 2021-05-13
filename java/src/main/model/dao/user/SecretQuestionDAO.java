@@ -13,7 +13,7 @@ public class SecretQuestionDAO extends AbstractDAO {
 
     protected void addSecretQuestion(User user) throws SQLException {
         assert connection != null;
-        String queryString = "INSERT INTO SecretQuestion(username, question, answer) VALUES (?,?,?)";
+        String queryString = "INSERT OR IGNORE INTO SecretQuestion(username, question, answer) VALUES (?,?,?)";
 
         PreparedStatement ps = connection.prepareStatement(queryString);
 
@@ -32,12 +32,13 @@ public class SecretQuestionDAO extends AbstractDAO {
         String queryString = "select question, answer from SecretQuestion where username = ?";
         ps = connection.prepareStatement(queryString);
         ps.setString(TableValues.USERNAME.ordinal() + 1, username);
-
         rs = ps.executeQuery();
-        ps.close();
 
         secretQuestion[User.SecretQuestion.QUESTION.ordinal()] = rs.getString("question");
         secretQuestion[User.SecretQuestion.ANSWER.ordinal()] = rs.getString("answer");
+
+        ps.close();
+        rs.close();
 
         return secretQuestion;
     }

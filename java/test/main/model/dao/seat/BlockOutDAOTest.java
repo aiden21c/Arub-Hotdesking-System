@@ -1,7 +1,7 @@
 package main.model.dao.seat;
 
 import main.Main;
-import main.model.object.booking.Seat;
+import main.model.object.seat.Seat;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

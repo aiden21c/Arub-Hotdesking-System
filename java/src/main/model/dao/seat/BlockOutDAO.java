@@ -1,11 +1,9 @@
 package main.model.dao.seat;
 
-import main.SQLiteConnection;
 import main.model.dao.AbstractDAO;
-import main.model.object.booking.Seat;
+import main.model.object.seat.Seat;
 import main.model.utilities.Utilities;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

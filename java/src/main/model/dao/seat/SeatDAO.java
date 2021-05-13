@@ -2,7 +2,7 @@ package main.model.dao.seat;
 
 import main.Main;
 import main.model.dao.AbstractDAO;
-import main.model.object.booking.Seat;
+import main.model.object.seat.Seat;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +15,7 @@ public class SeatDAO extends AbstractDAO {
 
     public void addSeat(Seat seat) throws SQLException, ClassNotFoundException {
         assert connection != null;
-        String queryString = "INSERT INTO Seat(seatNo, blockOut) VALUES (?,?)";
+        String queryString = "INSERT OR IGNORE INTO Seat(seatNo, blockOut) VALUES (?,?)";
 
         PreparedStatement ps = connection.prepareStatement(queryString);
 

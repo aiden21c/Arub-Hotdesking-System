@@ -3,17 +3,14 @@ package main.model.dao.booking;
 import main.Main;
 import main.model.dao.AbstractDAO;
 import main.model.object.booking.Booking;
-import main.model.object.booking.Seat;
+import main.model.object.seat.Seat;
 import main.model.object.user.User;
 import main.model.utilities.Utilities;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Set;
 
 public class BookingDAO extends AbstractDAO {
     private enum TableValues {SEATNO, USERNAME, PENDING, DATE}

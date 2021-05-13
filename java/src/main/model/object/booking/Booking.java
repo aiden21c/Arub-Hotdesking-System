@@ -1,10 +1,9 @@
 package main.model.object.booking;
 
+import main.model.object.seat.Seat;
 import main.model.object.user.User;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.Set;
 
 public class Booking {
     private Seat seat;
