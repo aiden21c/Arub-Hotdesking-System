@@ -28,7 +28,7 @@ public class UserDAO extends AbstractDAO {
     public void addUser(User user) throws SQLException {
         assert connection != null;
 
-        String queryString = "INSERT INTO Employee(empID, firstName, lastName, role, age, username, " +
+        String queryString = "INSERT OR IGNORE INTO Employee(empID, firstName, lastName, role, age, username, " +
         "password, isAdmin) VALUES (?,?,?,?,?,?,?,?)";
 
         PreparedStatement ps = connection.prepareStatement(queryString);
@@ -49,7 +49,7 @@ public class UserDAO extends AbstractDAO {
     }
 
     public User createUser(String user) throws SQLException, ClassNotFoundException {
-        User userObject = null;
+        User userObject;
         ResultSet rs = checkLogin(user);
 
         int empID = rs.getInt("empID");
@@ -74,6 +74,8 @@ public class UserDAO extends AbstractDAO {
                     secretQuestion, whitelist);
         }
 
+        rs.close();
+
         return userObject;
     }
 
@@ -85,7 +87,6 @@ public class UserDAO extends AbstractDAO {
         ps.setString(1, username);
 
         rs = ps.executeQuery();
-        ps.close();
 
         return rs;
     }

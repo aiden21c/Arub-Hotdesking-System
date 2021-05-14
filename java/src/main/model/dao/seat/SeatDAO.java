@@ -38,6 +38,8 @@ public class SeatDAO extends AbstractDAO {
         ps.setInt(1, seatNo);
         rs = ps.executeQuery();
 
+        System.out.println(rs.next());
+
         boolean blockOut = rs.getBoolean("blockOut");
 
         ps.close();

@@ -39,13 +39,18 @@ public class WhiteListDAO extends AbstractDAO {
 
         rs = ps.executeQuery();
 
+        ArrayList<Integer> seatNo = new ArrayList<>();
+
         while (rs.next()) {
-            int seatNo = rs.getInt(TableValues.SEATNO.ordinal());
-            whitelist.add(Main.seatDAO.createSeat(seatNo));
+            seatNo.add(rs.getInt(TableValues.SEATNO.ordinal()));
         }
 
-        ps.close();
         rs.close();
+        ps.close();
+
+        for (int i = 0; i < seatNo.size(); i++) {
+            whitelist.add(Main.seatDAO.createSeat(seatNo.get(i)));
+        }
 
         return whitelist;
     }

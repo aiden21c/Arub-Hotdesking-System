@@ -50,4 +50,38 @@ public abstract class User {
 
     public ArrayList<Seat> getWhiteList() {return whitelist;}
 
+    public boolean equals(User user) {
+        boolean equals = false;
+        int count = 0;
+
+        if (empID == user.empID) {
+            if (firstName.equals(user.firstName)) {
+                if (lastName.equals(user.lastName)) {
+                    if (role.equals(user.role)) {
+                        if (age == age) {
+                            if (username.equals(user.username)) {
+                                if (password.equals((user.password))) {
+                                    if (getQuestion().equals(user.getQuestion())) {
+                                        if (getAnswer().equals(user.getAnswer())) {
+                                            for (int i = 0; i < whitelist.size(); i++) {
+                                                if (whitelist.get(i).equals(user.whitelist.get(i))) {
+                                                    count++;
+                                                }
+                                            }
+                                            if (count == whitelist.size()) {
+                                                equals = true;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return equals;
+    }
+
 }
