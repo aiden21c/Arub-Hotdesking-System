@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BlockOutDAOTest {
+public class BlockOutDAOTest {
 
     @Test
     @DisplayName("Should accurately add dates to the database")

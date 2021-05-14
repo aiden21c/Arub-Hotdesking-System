@@ -25,4 +25,20 @@ public class Booking {
     public boolean getPending() {return pending;}
 
     public LocalDate getDate() {return date;}
+
+    public boolean equals(Booking b) {
+        boolean equals = false;
+
+        if (seat.equals(b.seat)) {
+            if (user.equals(b.user)) {
+                if (pending == b.pending) {
+                    if (date.equals(b.date)) {
+                        equals = true;
+                    }
+                }
+            }
+        }
+
+        return equals;
+    }
 }

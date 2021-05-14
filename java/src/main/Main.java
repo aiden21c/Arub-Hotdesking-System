@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import main.model.dao.booking.BookingDAO;
 import main.model.dao.seat.BlockOutDAO;
 import main.model.dao.seat.SeatDAO;
 import main.model.dao.user.SecretQuestionDAO;
@@ -17,6 +18,7 @@ public class Main extends Application {
     public static final SecretQuestionDAO secretQuestionDAO = new SecretQuestionDAO();
     public static final WhiteListDAO whiteListDAO = new WhiteListDAO();
     public static final BlockOutDAO blockOutDAO = new BlockOutDAO();
+    public static final BookingDAO bookingDAO = new BookingDAO();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
