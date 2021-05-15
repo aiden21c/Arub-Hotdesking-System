@@ -26,6 +26,11 @@ public class Booking {
 
     public LocalDate getDate() {return date;}
 
+    /**
+     * Takes in a booking, and checks if the values of the booking given are equal to it's own instance values
+     * @param b the booking object to be compared against
+     * @return boolean identifying whether the given booking object has equal values
+     */
     public boolean equals(Booking b) {
         boolean equals = false;
 

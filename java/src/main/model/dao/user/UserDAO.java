@@ -15,20 +15,27 @@ import main.model.object.user.User;
 public class UserDAO extends AbstractDAO {
 
     private enum TableValues {
-        EMPID,
-        FIRSTNAME,
-        LASTNAME,
-        ROLE,
-        AGE,
-        USERNAME,
-        PASSWORD,
-        ISADMIN
+        EMPID, FIRSTNAME, LASTNAME, ROLE, AGE, USERNAME, PASSWORD, ISADMIN
     }
 
+    /**
+     *
+     * @param user
+     * @throws SQLException
+     */
     public void addUser(User user) throws SQLException {
         assert connection != null;
+        boolean exists = true;
 
-        String queryString = "INSERT OR IGNORE INTO Employee(empID, firstName, lastName, role, age, username, " +
+        try {
+            exists(user.getUsername());
+        } catch (SQLException throwables) {
+            exists = false;
+        }
+
+        if (exists) {deleteUser(user.getUsername());}
+
+        String queryString = "INSERT INTO Employee(empID, firstName, lastName, role, age, username, " +
         "password, isAdmin) VALUES (?,?,?,?,?,?,?,?)";
 
         PreparedStatement ps = connection.prepareStatement(queryString);
@@ -44,22 +51,36 @@ public class UserDAO extends AbstractDAO {
         ps.execute();
         ps.close();
 
-        Main.secretQuestionDAO.addSecretQuestion(user);
+        Main.secretQuestionDAO.addSecretQuestion(user, exists);
         Main.whiteListDAO.addWhiteList(user);
     }
 
-    public User createUser(String user) throws SQLException, ClassNotFoundException {
+    /**
+     *
+     * @param username
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public User createUser(String username) throws SQLException, ClassNotFoundException {
         User userObject;
-        ResultSet rs = checkLogin(user);
+        ResultSet rs;
+        String queryString = "select * from Employee where username = ?";
+        PreparedStatement ps = connection.prepareStatement(queryString);
+        ps.setString(1, username);
+
+        rs = ps.executeQuery();
 
         int empID = rs.getInt("empID");
         String firstName = rs.getString("firstName");
         String lastName = rs.getString("lastName");
         String role = rs.getString("role");
         int age = rs.getInt("age");
-        String username = rs.getString("username");
         String password = rs.getString("password");
         boolean isAdmin = rs.getBoolean("isAdmin");
+
+        rs.close();
+        ps.close();
 
         String[] secretQuestion = Main.secretQuestionDAO.getTable(username);
         ArrayList<Seat> whitelist = Main.whiteListDAO.getWhiteList(username);
@@ -74,22 +95,52 @@ public class UserDAO extends AbstractDAO {
                     secretQuestion, whitelist);
         }
 
-        rs.close();
-
         return userObject;
     }
 
-    private ResultSet checkLogin(String username) throws SQLException {
-        PreparedStatement ps;
+    /**
+     *
+     * @param username
+     * @return
+     * @throws SQLException
+     */
+    private boolean exists(String username) throws SQLException {
+        boolean exists = false;
+
         ResultSet rs;
-        String queryString = "select * from Employee where username = ?";
-        ps = connection.prepareStatement(queryString);
+        String queryString = "SELECT COUNT(*) count FROM Employee WHERE username = ?";
+        PreparedStatement ps = connection.prepareStatement(queryString);
         ps.setString(1, username);
 
         rs = ps.executeQuery();
 
-        return rs;
+        int count = rs.getInt(1);
+
+        if (count > 0) {exists = true;}
+
+        rs.close();
+        ps.close();
+
+        return exists;
     }
 
+    /**
+     *
+     * @param username
+     * @throws SQLException
+     */
+    private void deleteUser(String username) throws SQLException {
+        assert connection != null;
+
+        String queryString = "delete from Employee where username = ?";
+        PreparedStatement ps = connection.prepareStatement(queryString);
+        ps.setString(1, username);
+
+        ps.execute();
+        ps.close();
+
+        Main.secretQuestionDAO.deleteSecretQuestion(username);
+        Main.whiteListDAO.deleteWhiteList(username);
+    }
 
 }

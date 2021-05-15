@@ -50,6 +50,11 @@ public abstract class User {
 
     public ArrayList<Seat> getWhiteList() {return whitelist;}
 
+    /**
+     * Takes in a user, and checks if the values of the user given are equal to it's own instance values
+     * @param user the user object to be compared against
+     * @return boolean identifying whether the given user object has equal values
+     */
     public boolean equals(User user) {
         boolean equals = false;
         int count = 0;

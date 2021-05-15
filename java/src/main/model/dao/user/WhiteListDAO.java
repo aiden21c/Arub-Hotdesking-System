@@ -13,6 +13,11 @@ import java.util.ArrayList;
 public class WhiteListDAO extends AbstractDAO {
     private enum TableValues {USERNAME, SEATNO}
 
+    /**
+     *
+     * @param user
+     * @throws SQLException
+     */
     protected void addWhiteList(User user) throws SQLException {
         assert connection != null;
         PreparedStatement ps = null;
@@ -28,6 +33,13 @@ public class WhiteListDAO extends AbstractDAO {
         ps.close();
     }
 
+    /**
+     *
+     * @param username
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     protected ArrayList<Seat> getWhiteList(String username) throws SQLException, ClassNotFoundException {
         assert connection != null;
         ArrayList<Seat> whitelist = new ArrayList<>();
@@ -53,5 +65,39 @@ public class WhiteListDAO extends AbstractDAO {
         }
 
         return whitelist;
+    }
+
+    /**
+     *
+     * @param username
+     * @param seatNo
+     * @throws SQLException
+     */
+    protected void deleteWhiteList(String username, int seatNo) throws SQLException {
+        assert connection != null;
+
+        String queryString = "delete from WhiteList where username = ? and seatNo = ?";
+        PreparedStatement ps = connection.prepareStatement(queryString);
+        ps.setString(TableValues.USERNAME.ordinal() + 1, username);
+        ps.setInt(TableValues.SEATNO.ordinal() + 1, seatNo);
+
+        ps.execute();
+        ps.close();
+    }
+
+    /**
+     *
+     * @param username
+     * @throws SQLException
+     */
+    protected void deleteWhiteList(String username) throws SQLException {
+        assert connection != null;
+
+        String queryString = "delete from WhiteList where username = ?";
+        PreparedStatement ps = connection.prepareStatement(queryString);
+        ps.setString(TableValues.USERNAME.ordinal() + 1, username);
+
+        ps.execute();
+        ps.close();
     }
 }

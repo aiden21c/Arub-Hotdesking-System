@@ -20,6 +20,11 @@ public class Seat {
 
     public boolean getBlockOut() {return blockout;}
 
+    /**
+     * Takes in a seat, and checks if the values of the seat given are equal to it's own instance values
+     * @param s the seat object to be compared against
+     * @return boolean identifying whether the given seat object has equal values
+     */
     public boolean equals(Seat s) {
         boolean equals = false;
         int size = blockDates.size();

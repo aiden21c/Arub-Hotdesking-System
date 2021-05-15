@@ -26,7 +26,8 @@ public class WhiteListDAOTest {
 
         ArrayList<Seat> whitelist = new ArrayList<>();
         ArrayList<LocalDate> dates = new ArrayList<>();
-        whitelist.add(new Seat(7, false, dates));
+        dates.add(LocalDate.of(2021, 06, 15));
+        whitelist.add(new Seat(6, false, dates));
 
         User user = new Employee(297456, "Jimmy", "Neutron", "Inventor", 12, username, "password", secretQuestion, whitelist);
 

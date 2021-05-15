@@ -4,6 +4,7 @@ import main.Main;
 import main.model.object.seat.Seat;
 import main.model.object.user.Employee;
 import main.model.object.user.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +14,13 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SecretQuestionDAOTest {
+
+    @BeforeEach
+    public void clearDatabase() {
+        try {
+            Main.secretQuestionDAO.deleteSecretQuestion("jimmy.neutron");
+        } catch (SQLException ignored) { }
+    }
 
     @Test
     @DisplayName("Tests adding a secret question to database, and retrieving it")
@@ -28,7 +36,7 @@ public class SecretQuestionDAOTest {
 
         User user = new Employee(297456, "Jimmy", "Neutron", "Inventor", 12, username, "password", secretQuestion, whitelist);
 
-        Main.secretQuestionDAO.addSecretQuestion(user);
+        Main.secretQuestionDAO.addSecretQuestion(user, false);
 
         String[] secretQuestionTest = Main.secretQuestionDAO.getTable(username);
 
