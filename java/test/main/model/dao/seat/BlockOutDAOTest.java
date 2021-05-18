@@ -15,16 +15,21 @@ public class BlockOutDAOTest {
 
     @Test
     @DisplayName("Should accurately add dates to the database")
-    void testAddDatesAndGetDates() throws SQLException, ClassNotFoundException {
+    void testAddDatesAndGetDates() {
         int seatNo = 1;
         ArrayList<LocalDate> blockDates = new ArrayList<>();
         blockDates.add(LocalDate.of(2021, 06, 14));
         blockDates.add(LocalDate.of(2021, 07, 15));
         Seat seat = new Seat(seatNo, false, blockDates);
 
-        Main.blockOutDAO.addDates(seat);
+        ArrayList<LocalDate> blockDatesTest = null;
 
-        ArrayList<LocalDate> blockDatesTest = Main.blockOutDAO.createDates(seatNo);
+        try {
+            Main.blockOutDAO.addDates(seat);
+            blockDatesTest = Main.blockOutDAO.createDates(seatNo);
+        } catch (SQLException e) {
+            System.out.println("Could not add or retrieve the blockout array created from the database");
+        }
 
         assertEquals(blockDates, blockDatesTest, "Should be equal if added to database and retrieved");
     }

@@ -24,7 +24,7 @@ public class SecretQuestionDAOTest {
 
     @Test
     @DisplayName("Tests adding a secret question to database, and retrieving it")
-    public void testAddQuestionandGetQuestion() throws SQLException {
+    public void testAddQuestionandGetQuestion() {
         String username = "jimmy.neutron";
 
         String[] secretQuestion = new String[2];
@@ -32,17 +32,20 @@ public class SecretQuestionDAOTest {
         secretQuestion[1] = "Carl";
 
         ArrayList<Seat> whitelist = new ArrayList<>();
-
-
         User user = new Employee(297456, "Jimmy", "Neutron", "Inventor", 12, username, "password", secretQuestion, whitelist);
 
-        Main.secretQuestionDAO.addSecretQuestion(user, false);
+        String[] secretQuestionTest = null;
 
-        String[] secretQuestionTest = Main.secretQuestionDAO.getTable(username);
+        try {
+            Main.secretQuestionDAO.addSecretQuestion(user, false);
+            secretQuestionTest = Main.secretQuestionDAO.getTable(username);
+
+        } catch (SQLException e) {
+            System.out.println("Could not add or retrieve the secret question array created from the database");
+        }
 
         assertEquals(secretQuestion[0], secretQuestionTest[0], "Should be equal if added to database and retrieved");
         assertEquals(secretQuestion[1], secretQuestionTest[1], "Should be equal if added to database and retrieved");
-
     }
 
 }

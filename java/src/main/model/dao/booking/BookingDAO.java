@@ -1,6 +1,5 @@
 package main.model.dao.booking;
 
-import com.sun.tools.javac.util.Name;
 import main.Main;
 import main.model.dao.AbstractDAO;
 import main.model.object.booking.Booking;
@@ -111,6 +110,38 @@ public class BookingDAO extends AbstractDAO {
         ps.close();
 
         return exists;
+    }
+
+    /**
+     * Deletes all bookings for a given user
+     * @param username the username for the user to delete all bookings for
+     * @throws SQLException
+     */
+    public void deleteBooking(String username) throws SQLException {
+        assert connection != null;
+
+        String queryString = "delete from Booking where username = ?";
+        PreparedStatement ps = connection.prepareStatement(queryString);
+        ps.setString(TableValues.USERNAME.ordinal(), username);
+
+        ps.execute();
+        ps.close();
+    }
+
+    /**
+     * Deletes all bookings for a given seat
+     * @param seatNo the seat number for the seat to delete all bookings for
+     * @throws SQLException
+     */
+    public void deleteBooking(int seatNo) throws SQLException {
+        assert connection != null;
+
+        String queryString = "delete from Booking where seatNo = ?";
+        PreparedStatement ps = connection.prepareStatement(queryString);
+        ps.setInt(TableValues.SEATNO.ordinal() + 1, seatNo);
+
+        ps.execute();
+        ps.close();
     }
 
 

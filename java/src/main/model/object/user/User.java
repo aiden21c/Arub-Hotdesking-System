@@ -1,7 +1,9 @@
 package main.model.object.user;
 
+import main.Main;
 import main.model.object.seat.Seat;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public abstract class User {
@@ -17,6 +19,18 @@ public abstract class User {
     protected String[] secretQuestion;
     protected ArrayList<Seat> whitelist;
 
+    /**
+     * Constructor to be used when creating a user that has already existed in the system
+     * @param empID the id of the user
+     * @param firstName the user's first name
+     * @param lastName the user's last name
+     * @param role the role of the user
+     * @param age the user's age
+     * @param username the username of the user. Must be unique for all users
+     * @param password the password for the user
+     * @param secretQuestion the secret question array of the user. Features both question and answer
+     * @param whitelist the whitelist of the seats the user is able to book in their next booking
+     */
     protected User(int empID, String firstName, String lastName, String role, int age,
                 String username, String password, String[] secretQuestion, ArrayList<Seat> whitelist) {
         this.empID = empID;
@@ -29,6 +43,32 @@ public abstract class User {
         this.secretQuestion = secretQuestion;
         this.whitelist = whitelist;
     }
+
+    /**
+     * Constructor to be used when creating a new user from the UI
+     * @param empID the id of the user
+     * @param firstName the user's first name
+     * @param lastName the user's last name
+     * @param role the role of the user
+     * @param age the user's age
+     * @param username the username of the user. Must be unique for all users
+     * @param password the password for the user
+     * @param secretQuestion the secret question array of the user. Features both question and answer
+     * @throws SQLException
+     */
+    protected User(int empID, String firstName, String lastName, String role, int age,
+                   String username, String password, String[] secretQuestion) throws SQLException {
+        this.empID = empID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.role = role;
+        this.age = age;
+        this.username = username;
+        this.password = password;
+        this.secretQuestion = secretQuestion;
+        this.whitelist = Main.seatDAO.getAllSeats();
+    }
+
 
     public int getEmpID() {return empID;}
 

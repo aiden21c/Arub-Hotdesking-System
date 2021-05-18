@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserDAOTest {
     @Test
     @DisplayName("Tests adding a user to database, and retrieving it")
-    public void testAddUserandGetUser() throws SQLException, ClassNotFoundException {
+    public void testAddUserandGetUser() {
         String username = "jimmy.neutron";
 
         String[] secretQuestion = new String[2];
@@ -29,10 +29,15 @@ public class UserDAOTest {
         whitelist.add(new Seat(6, false, dates));
 
         User user = new Employee(297456, "Jimmy", "Neutron", "Inventor", 12, username, "password", secretQuestion, whitelist);
+        User userTest = null;
 
-        Main.userDAO.addUser(user);
+        try {
+            Main.userDAO.addUser(user);
+            userTest = Main.userDAO.createUser(username);
 
-        User userTest = Main.userDAO.createUser(username);
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Could not add or retrieve the user object created from the database");
+        }
 
         assertTrue(user.equals(userTest), "Should be equal if added to database and retrieved");
     }

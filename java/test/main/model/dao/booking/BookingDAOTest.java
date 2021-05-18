@@ -16,19 +16,30 @@ public class BookingDAOTest {
 
     @Test
     @DisplayName("Should accurately add booking to the database")
-    void testBookingandGetBooking() throws SQLException, ClassNotFoundException {
+    void testBookingandGetBooking() {
         String username = "bob.belcher"; int seatNo = 1;
 
-        User user = Main.userDAO.createUser(username);
-        Seat seat = Main.seatDAO.createSeat(seatNo);
+        User user = null;
+        Seat seat = null;
+
+        try {
+            user = Main.userDAO.createUser(username);
+            seat = Main.seatDAO.createSeat(seatNo);
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("User or seat does not exist in the database for the given information");
+        }
 
         LocalDate date = LocalDate.of(2021, 06, 02);
 
         Booking booking = new Booking(seat, user, true, date);
+        Booking bookingTest = null;
 
-        Main.bookingDAO.addBooking(booking);
-
-        Booking bookingTest = Main.bookingDAO.createBooking(seatNo, username);
+        try {
+            Main.bookingDAO.addBooking(booking);
+            bookingTest = Main.bookingDAO.createBooking(seatNo, username);
+        } catch (SQLException | ClassNotFoundException e) {
+            System.out.println("Could not add or retrieve the booking object created from the database");
+        }
 
         assertTrue(booking.equals(bookingTest), "Should be equal if added to database and retrieved");
 

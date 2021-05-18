@@ -14,9 +14,9 @@ public class WhiteListDAO extends AbstractDAO {
     private enum TableValues {USERNAME, SEATNO}
 
     /**
-     *
-     * @param user
-     * @throws SQLException
+     * Adds the white list array of a given user to the database
+     * @param user the user whos whitelist is to be added
+     * @throws SQLException if no user currently exists in the database with given username
      */
     protected void addWhiteList(User user) throws SQLException {
         assert connection != null;
@@ -30,17 +30,17 @@ public class WhiteListDAO extends AbstractDAO {
             ps.execute();
         }
 
+        assert ps != null;
         ps.close();
     }
 
     /**
-     *
-     * @param username
-     * @return
-     * @throws SQLException
-     * @throws ClassNotFoundException
+     * Obtain a whitelist from the database for a given username
+     * @param username the username who's whitelist is to be obtained
+     * @return a seat array containing all the seats whitelisted for given user
+     * @throws SQLException if there are no entries in the whitelist for the given user
      */
-    protected ArrayList<Seat> getWhiteList(String username) throws SQLException, ClassNotFoundException {
+    protected ArrayList<Seat> getWhiteList(String username) throws SQLException {
         assert connection != null;
         ArrayList<Seat> whitelist = new ArrayList<>();
         PreparedStatement ps;
@@ -60,18 +60,18 @@ public class WhiteListDAO extends AbstractDAO {
         rs.close();
         ps.close();
 
-        for (int i = 0; i < seatNo.size(); i++) {
-            whitelist.add(Main.seatDAO.createSeat(seatNo.get(i)));
+        for (Integer integer : seatNo) {
+            whitelist.add(Main.seatDAO.createSeat(integer));
         }
 
         return whitelist;
     }
 
     /**
-     *
-     * @param username
-     * @param seatNo
-     * @throws SQLException
+     * Deletes a whitelist entry for a given username and seat
+     * @param username the username who's whitelist entry are to be deleted
+     * @param seatNo the seat number of the relevant whitelist entry
+     * @throws SQLException if either primary key constraint, username or seatNo, fails
      */
     protected void deleteWhiteList(String username, int seatNo) throws SQLException {
         assert connection != null;
@@ -86,9 +86,9 @@ public class WhiteListDAO extends AbstractDAO {
     }
 
     /**
-     *
-     * @param username
-     * @throws SQLException
+     * Deletes all whitelist entries for a given username
+     * @param username the user who's whitelist is to be deleted
+     * @throws SQLException if a user cannot be found with this username
      */
     protected void deleteWhiteList(String username) throws SQLException {
         assert connection != null;

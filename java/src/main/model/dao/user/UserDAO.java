@@ -19,8 +19,10 @@ public class UserDAO extends AbstractDAO {
     }
 
     /**
-     *
-     * @param user
+     * Add a user to the database
+     *      If there is already an entry in the table for this username, the method identifies this
+     *      as an "update values" and removes the current entry from the database before adding the new one
+     * @param user the user object to add to the database
      * @throws SQLException
      */
     public void addUser(User user) throws SQLException {
@@ -56,9 +58,9 @@ public class UserDAO extends AbstractDAO {
     }
 
     /**
-     *
-     * @param username
-     * @return
+     * Creates a user object from a row in the database
+     * @param username the username of the user object to create
+     * @return the user object created from database values
      * @throws SQLException
      * @throws ClassNotFoundException
      */
@@ -99,9 +101,9 @@ public class UserDAO extends AbstractDAO {
     }
 
     /**
-     *
-     * @param username
-     * @return
+     * Checks if an entry exists in the system for the given username
+     * @param username the username to check in the database
+     * @return boolean identifying whether or not this user exists in the database
      * @throws SQLException
      */
     private boolean exists(String username) throws SQLException {
@@ -125,11 +127,16 @@ public class UserDAO extends AbstractDAO {
     }
 
     /**
-     *
-     * @param username
+     * Deletes a user from the database
+     *      First deletes values from the booking, whitelist and secret question table, before deleting user
+     * @param username the username of the user to delete from the database
      * @throws SQLException
      */
     private void deleteUser(String username) throws SQLException {
+        Main.secretQuestionDAO.deleteSecretQuestion(username);
+        Main.whiteListDAO.deleteWhiteList(username);
+        Main.bookingDAO.deleteBooking(username);
+
         assert connection != null;
 
         String queryString = "delete from Employee where username = ?";
@@ -138,9 +145,6 @@ public class UserDAO extends AbstractDAO {
 
         ps.execute();
         ps.close();
-
-        Main.secretQuestionDAO.deleteSecretQuestion(username);
-        Main.whiteListDAO.deleteWhiteList(username);
     }
 
 }

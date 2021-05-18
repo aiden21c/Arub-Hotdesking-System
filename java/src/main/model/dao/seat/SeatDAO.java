@@ -2,6 +2,7 @@ package main.model.dao.seat;
 
 import main.Main;
 import main.model.dao.AbstractDAO;
+import main.model.dao.user.WhiteListDAO;
 import main.model.object.seat.Seat;
 
 import java.sql.PreparedStatement;
@@ -98,6 +99,9 @@ public class SeatDAO extends AbstractDAO {
      * @throws SQLException if a seat with this seat number cannot be found
      */
     private void delete(Seat seat) throws SQLException {
+        Main.blockOutDAO.deleteBlockOut(seat.getSeatNo());
+        Main.bookingDAO.deleteBooking(seat.getSeatNo());
+
         assert connection != null;
 
         String queryString = "delete from Seat where seatNo = ?";
@@ -107,6 +111,36 @@ public class SeatDAO extends AbstractDAO {
         ps.execute();
         ps.close();
 
-        Main.blockOutDAO.deleteBlockOut(seat.getSeatNo());
+    }
+
+    /**
+     * Obtain an array list of all seats in the database
+     * @return an array list of all seats
+     * @throws SQLException
+     */
+    public ArrayList<Seat> getAllSeats() throws SQLException {
+        assert connection != null;
+        ArrayList<Seat> seats = new ArrayList<>();
+        PreparedStatement ps;
+        ResultSet rs;
+        String queryString = "select seatNo from Seat";
+        ps = connection.prepareStatement(queryString);
+
+        rs = ps.executeQuery();
+
+        ArrayList<Integer> seatNo = new ArrayList<>();
+
+        while (rs.next()) {
+            seatNo.add(rs.getInt(1));
+        }
+
+        rs.close();
+        ps.close();
+
+        for (Integer integer : seatNo) {
+            seats.add(Main.seatDAO.createSeat(integer));
+        }
+
+        return seats;
     }
 }
