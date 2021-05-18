@@ -36,7 +36,7 @@ public class BookingDAOTest {
 
         try {
             Main.bookingDAO.addBooking(booking);
-            bookingTest = Main.bookingDAO.createBooking(seatNo, username);
+            bookingTest = Main.bookingDAO.createBooking(username);
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println("Could not add or retrieve the booking object created from the database");
         }

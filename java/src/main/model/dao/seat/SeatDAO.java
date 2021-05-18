@@ -2,7 +2,6 @@ package main.model.dao.seat;
 
 import main.Main;
 import main.model.dao.AbstractDAO;
-import main.model.dao.user.WhiteListDAO;
 import main.model.object.seat.Seat;
 
 import java.sql.PreparedStatement;

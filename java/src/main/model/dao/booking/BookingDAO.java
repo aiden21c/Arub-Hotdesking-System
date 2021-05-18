@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class BookingDAO extends AbstractDAO {
+
     private enum TableValues {SEATNO, USERNAME, PENDING, DATE}
 
     /**
@@ -40,24 +41,53 @@ public class BookingDAO extends AbstractDAO {
 
     /**
      * Creates a booking object from a row in the database
-     * @param seatNo the given seat number of the booking
      * @param username the given username of the booking
      * @return a booking object with values associated with given parameters
      * @throws SQLException if a booking cannot be found with given parameters
      * @throws ClassNotFoundException
      */
-    public Booking createBooking(int seatNo, String username) throws SQLException, ClassNotFoundException {
+    public Booking createBooking(String username) throws SQLException, ClassNotFoundException {
         PreparedStatement ps;
         ResultSet rs;
-        String queryString = "select * from Booking where seatNo = ? and username = ?";
+        String queryString = "select * from Booking where username = ?";
         ps = connection.prepareStatement(queryString);
-        ps.setInt( TableValues.SEATNO.ordinal() + 1, seatNo);
-        ps.setString(TableValues.USERNAME.ordinal() + 1, username);
+        ps.setString(1, username);
 
         rs = ps.executeQuery();
 
+        int seatNo = rs.getInt("seatNo");
         boolean pending = rs.getBoolean("pending");
         LocalDate date = Utilities.stringToDate(rs.getString("date"));
+
+        ps.close();
+        rs.close();
+
+        Seat seat = Main.seatDAO.createSeat(seatNo);
+        User user = Main.userDAO.createUser(username);
+
+        return new Booking(seat, user, pending, date);
+    }
+
+    /**
+     * Creates a booking object from a row in the database
+     * @param seatNo the given seat number of the booking
+     * @param date the given date of the booking
+     * @return a booking object with values associated with given parameters
+     * @throws SQLException if a booking cannot be found with given parameters
+     * @throws ClassNotFoundException
+     */
+    public Booking createBooking(int seatNo, LocalDate date) throws SQLException, ClassNotFoundException {
+        PreparedStatement ps;
+        ResultSet rs;
+        String queryString = "select * from Booking where seatNo = ? and date = DATE(?)";
+        ps = connection.prepareStatement(queryString);
+        ps.setInt( 1, seatNo);
+        ps.setString(2, date.toString());
+
+        rs = ps.executeQuery();
+
+        String username = rs.getString("username");
+        boolean pending = rs.getBoolean("pending");
 
         ps.close();
         rs.close();
@@ -93,6 +123,8 @@ public class BookingDAO extends AbstractDAO {
      */
     private boolean exists(Booking booking) throws SQLException {
         boolean exists = false;
+
+        assert connection != null;
 
         ResultSet rs;
         String queryString = "SELECT COUNT(*) count FROM Booking WHERE seatNo = ? and username = ?";
@@ -142,6 +174,64 @@ public class BookingDAO extends AbstractDAO {
 
         ps.execute();
         ps.close();
+    }
+
+    /**
+     * Checks if a seat is booked on a given date
+     * @param seatNo the seat to check if booked
+     * @param date the date to check if seat is booked on
+     * @return boolean identifying if the seat is booked for a given date
+     * @throws SQLException
+     */
+    public boolean isBooked(int seatNo, LocalDate date) throws SQLException {
+        boolean booked = false;
+
+        assert connection != null;
+
+        ResultSet rs;
+        String queryString = "SELECT COUNT(*) count FROM Booking WHERE seatNo = ? and date = DATE(?)";
+        PreparedStatement ps = connection.prepareStatement(queryString);
+        ps.setInt(1, seatNo);
+        ps.setString(2, date.toString());
+
+        rs = ps.executeQuery();
+
+        int count = rs.getInt(1);
+
+        if (count > 0) {booked = true;}
+
+        rs.close();
+        ps.close();
+
+        return booked;
+    }
+
+    /**
+     * Checks if a given user has any current bookings
+     * @param username the username of the user to check
+     * @return boolean identifying if the user has any current bookings
+     * @throws SQLException
+     */
+    public boolean checkUser(String username) throws SQLException {
+        boolean hasBooking = false;
+
+        assert connection != null;
+
+        ResultSet rs;
+        String queryString = "SELECT COUNT(*) count FROM Booking WHERE username = ?";
+        PreparedStatement ps = connection.prepareStatement(queryString);
+        ps.setString(1, username);
+
+        rs = ps.executeQuery();
+
+        int count = rs.getInt(1);
+
+        if (count > 0) {hasBooking = true;}
+
+        rs.close();
+        ps.close();
+
+        return hasBooking;
     }
 
 

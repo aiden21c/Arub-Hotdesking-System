@@ -3,6 +3,7 @@ package main.model.object.booking;
 import main.model.object.seat.Seat;
 import main.model.object.user.User;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 
 public class Booking {
@@ -11,10 +12,23 @@ public class Booking {
     private boolean pending;
     private LocalDate date;
 
+    /**
+     * Constructor to create a new booking from UI. Sets pending to true
+     */
+    public Booking(Seat seat, User user, LocalDate date) {
+        this.seat = seat;
+        this.user = user;
+        setPending(true);
+        this.date = date;
+    }
+
+    /**
+     * Constructor to create a new booking from database
+     */
     public Booking(Seat seat, User user, boolean pending, LocalDate date) {
         this.seat = seat;
         this.user = user;
-        this.pending = pending;
+        setPending(pending);
         this.date = date;
     }
 
@@ -23,6 +37,8 @@ public class Booking {
     public User getUser() {return user;}
 
     public boolean getPending() {return pending;}
+
+    public void setPending(boolean pending) {this.pending = pending;}
 
     public LocalDate getDate() {return date;}
 
@@ -45,5 +61,12 @@ public class Booking {
         }
 
         return equals;
+    }
+
+    /**
+     * Updates the user's whitelist
+     */
+    public void checkIn() throws SQLException {
+        user.updateWhiteList(seat);
     }
 }

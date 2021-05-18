@@ -1,8 +1,11 @@
 package main.model.object.user;
 
 import main.Main;
+import main.model.object.booking.Booking;
 import main.model.object.seat.Seat;
+import main.model.utilities.Utilities;
 
+import java.awt.print.Book;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -84,9 +87,7 @@ public abstract class User {
 
     public String getPassword() {return password;}
 
-    public String getQuestion() {return secretQuestion[SecretQuestion.QUESTION.ordinal()];}
-
-    public String getAnswer() {return secretQuestion[SecretQuestion.ANSWER.ordinal()];}
+    public String[] getSecretQuestion() {return secretQuestion;}
 
     public ArrayList<Seat> getWhiteList() {return whitelist;}
 
@@ -103,12 +104,11 @@ public abstract class User {
             if (firstName.equals(user.firstName)) {
                 if (lastName.equals(user.lastName)) {
                     if (role.equals(user.role)) {
-                        if (age == age) {
+                        if (age == user.age) {
                             if (username.equals(user.username)) {
                                 if (password.equals((user.password))) {
-                                    if (getQuestion().equals(user.getQuestion())) {
-                                        if (getAnswer().equals(user.getAnswer())) {
-                                            for (int i = 0; i < whitelist.size(); i++) {
+                                    if(secretQuestion[SecretQuestion.QUESTION.ordinal()].equals(user.secretQuestion[SecretQuestion.QUESTION.ordinal()])) {
+                                        if(secretQuestion[SecretQuestion.ANSWER.ordinal()].equals(user.secretQuestion[SecretQuestion.ANSWER.ordinal()])) {                                            for (int i = 0; i < whitelist.size(); i++) {
                                                 if (whitelist.get(i).equals(user.whitelist.get(i))) {
                                                     count++;
                                                 }
@@ -125,8 +125,51 @@ public abstract class User {
                 }
             }
         }
-
         return equals;
     }
+
+    /**
+     * Obtains a new 10 digit password for a user, and sets it as the user's password
+     * @return the new user password
+     */
+    public String setNewPassword() {
+        password = Utilities.generateNewPassword();
+        return password;
+    }
+
+    /**
+     * Checks if the user has a current booking
+     * @return boolean identifying if any current bookings exist
+     * @throws SQLException
+     */
+    public boolean checkIfHasCurrentBooking() throws SQLException{
+        return Main.bookingDAO.checkUser(username);
+    }
+
+    /**
+     * Obtains a booking object of the users current booking
+     * @return the current booking object
+     * @throws SQLException if a booking for the user cannot be found in the database
+     * @throws ClassNotFoundException
+     */
+    public Booking viewCurrentBooking() throws SQLException, ClassNotFoundException {
+        return Main.bookingDAO.createBooking(username);
+    }
+
+
+    /**
+     * Update the whitelist, resetting it to default and then removing the given seat
+     * @param seat the most recently booked seat to remove from the whitelist
+     */
+    public void updateWhiteList(Seat seat) throws SQLException {
+        this.whitelist = Main.seatDAO.getAllSeats();
+
+        for (int i = 0; i < whitelist.size(); i++) {
+            if(whitelist.get(i).getSeatNo() == seat.getSeatNo()) {
+                whitelist.remove(i);
+            }
+        }
+    }
+
 
 }

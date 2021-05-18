@@ -1,5 +1,8 @@
 package main.model.object.seat;
 
+import main.Main;
+
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -7,6 +10,8 @@ public class Seat {
     private int seatNo;
     private boolean blockout;
     private ArrayList<LocalDate> blockDates;
+
+    public enum Available {LOCKED, OPEN, BOOKED}
 
     public Seat(int seatNo, boolean blockout, ArrayList<LocalDate> blockDates) {
         this.seatNo = seatNo;
@@ -45,5 +50,26 @@ public class Seat {
         }
 
         return equals;
+    }
+
+    /**
+     * Check the availability of a seat on a certain date
+     * @param date the date to check availability for
+     * @return the current availability status of the seat
+     */
+    public Available isLockedOnDate(LocalDate date) {
+        Available status = Available.OPEN;
+
+        if (blockDates.contains(date) || blockout) {
+                status = Available.LOCKED;
+        }
+
+        try {
+            if (!Main.bookingDAO.isBooked(seatNo, date)) {
+                status = Available.BOOKED;
+            }
+        } catch (SQLException ignored) { }
+
+        return status;
     }
 }
