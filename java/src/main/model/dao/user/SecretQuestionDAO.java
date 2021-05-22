@@ -30,8 +30,8 @@ public class SecretQuestionDAO extends AbstractDAO {
         PreparedStatement ps = connection.prepareStatement(queryString);
 
         ps.setString(TableValues.USERNAME.ordinal() + 1, user.getUsername());
-        ps.setString(TableValues.QUESTION.ordinal() + 1, user.getQuestion());
-        ps.setString(TableValues.ANSWER.ordinal() + 1, user.getAnswer());
+        ps.setString(TableValues.QUESTION.ordinal() + 1, user.getSecretQuestion()[User.SecretQuestion.QUESTION.ordinal()]);
+        ps.setString(TableValues.ANSWER.ordinal() + 1, user.getSecretQuestion()[User.SecretQuestion.ANSWER.ordinal()]);
 
         ps.execute();
         ps.close();
