@@ -17,6 +17,7 @@ public abstract class AbstractDAO {
         try {
             connection = SQLiteConnection.connect();
         } catch (SQLException | ClassNotFoundException throwables) {
+            System.out.println("Could not connect to database");
             System.exit(1);
         }
     }

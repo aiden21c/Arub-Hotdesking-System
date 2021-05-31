@@ -31,6 +31,7 @@ public class LoginController implements Initializable {
         }
 
     }
+
     /* login Action method
        check if user input is the same as database.
      */
@@ -41,12 +42,16 @@ public class LoginController implements Initializable {
 
             if (user.getPassword().equals(txtPassword.getText())) {
 
-                isConnected.setText("Logged in successfully");
+                isConnected.setText("Login Successful");
             } else {
-                isConnected.setText("username and password is incorrect");
+                isConnected.setText("Details Incorrect");
             }
         } catch (SQLException | ClassNotFoundException e) {
-            isConnected.setText("username and password is incorrect");
+            isConnected.setText("Details Incorrect");
         }
     }
+
+    public void Register(ActionEvent event){ }
+
+    public void ForgottenPassword(ActionEvent event){ }
 }
