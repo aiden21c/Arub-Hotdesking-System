@@ -106,7 +106,7 @@ public class UserDAO extends AbstractDAO {
      * @return boolean identifying whether or not this user exists in the database
      * @throws SQLException
      */
-    private boolean exists(String username) throws SQLException {
+    public boolean exists(String username) throws SQLException {
         boolean exists = false;
 
         ResultSet rs;

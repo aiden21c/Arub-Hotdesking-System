@@ -24,6 +24,12 @@ public class ForgottenPassword extends AbstractController {
     private String question;
     private String answer;
 
+    /**
+     * Initialize the scene by setting the user to the captured user from the login page
+     *      Sets the scene for the text within various labels
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources){
         user = LoginController.user;
@@ -34,6 +40,11 @@ public class ForgottenPassword extends AbstractController {
         secretQuestion.setText(question);
     }
 
+    /**
+     * Checks if the given answer matches the answer for the given user
+     *      User is taken to the passwordReset page if the answer is correct
+     * @param event
+     */
     public void Reset(ActionEvent event) {
         if(answer.equals(txtAnswer.getText().toUpperCase())) {
 
@@ -49,6 +60,17 @@ public class ForgottenPassword extends AbstractController {
         }
     }
 
-    public void Back(ActionEvent event) { }
+    /**
+     * Takes user back to the login page
+     * @param event
+     */
+    public void Back(ActionEvent event) {
+        try {
+            newScene("login.fxml", event);
+        } catch (IOException e) {
+            // TODO correctly handle exception
+            e.printStackTrace();
+        }
+    }
 
 }

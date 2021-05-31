@@ -1,15 +1,9 @@
 package main.controller;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
-import javafx.stage.Stage;
 import main.Main;
 import main.model.object.user.User;
 
@@ -39,8 +33,9 @@ public class LoginController extends AbstractController {
 
     }
 
-    /* login Action method
-       check if user input is the same as database.
+    /**
+     * Checks if the username and password match with a user within the database
+     * @param event
      */
     public void Login(ActionEvent event){
 
@@ -49,12 +44,9 @@ public class LoginController extends AbstractController {
 
             if (user.getPassword().equals(txtPassword.getText())) {
                 isConnected.setText("Login Successful");
-
-//                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("layout.fxml"));
-//                Parent root = (Parent) fxmlLoader.load();
-//                Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-//
-//                primaryStage.setScene(new Scene(root));
+//                try {
+//                    newScene("<sceneURL>");
+//                } catch () { }
 
 
             } else {
@@ -65,19 +57,31 @@ public class LoginController extends AbstractController {
         }
     }
 
+    /**
+     * Takes the user to the registration page upon clicking of the register hyperlink
+     * @param event
+     */
     public void Register(ActionEvent event) {
-        System.out.println("Register button pressed");
+        try {
+            newScene("register.fxml", event);
+        } catch (IOException e) {
+            // TODO correctly handle exception
+            e.printStackTrace();
+        }
+
     }
 
+    /**
+     * Takes the user to the ForgottenPassword page upon clicking of the Forgot Password hyperlink
+     * @param event
+     */
     public void ForgottenPassword(ActionEvent event) {
         try {
             user = Main.userDAO.createUser(txtUsername.getText());
-
             newScene("forgottenPassword.fxml", event);
 
         } catch (SQLException | ClassNotFoundException | IOException e) {
             isConnected.setText("Username Incorrect");
         }
-
     }
 }
