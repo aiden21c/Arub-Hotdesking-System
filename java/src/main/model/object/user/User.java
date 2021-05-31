@@ -129,12 +129,11 @@ public abstract class User {
     }
 
     /**
-     * Obtains a new 10 digit password for a user, and sets it as the user's password
-     * @return the new user password
+     * Sets a new password for the user
+     * @param password the new password to be set for the user
      */
-    public String setNewPassword() {
-        password = Utilities.generateNewPassword();
-        return password;
+    public void setNewPassword(String password) {
+        this.password = password;
     }
 
     /**

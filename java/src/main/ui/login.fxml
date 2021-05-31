@@ -16,13 +16,13 @@
          <font>
             <Font name="System Font" size="18.0" />
          </font></Button>
-      <Hyperlink alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="209.0" onAction="#ForgottenPassword" text="Forgotten Password?" />
+      <Hyperlink alignment="CENTER" contentDisplay="CENTER" layoutX="182.0" layoutY="209.0" onAction="#ForgottenPassword" text="Forgotten Password?" />
       <Label layoutX="115.0" layoutY="24.0" text="Arub Hotdesking">
          <font>
             <Font name="Avenir Roman" size="32.0" />
          </font>
       </Label>
-      <Hyperlink alignment="CENTER" contentDisplay="CENTER" layoutX="196.0" layoutY="296.0" onAction="#Register" text="Register">
+      <Hyperlink alignment="CENTER" contentDisplay="CENTER" layoutX="211.0" layoutY="297.0" onAction="#Register" text="Register">
          <font>
             <Font size="18.0" />
          </font>
