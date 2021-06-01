@@ -24,5 +24,4 @@ public abstract class AbstractController implements Initializable {
         Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
         primaryStage.setScene(new Scene(root));
     }
-
 }

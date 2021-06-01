@@ -33,7 +33,7 @@ public class ForgottenPassword extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources){
         user = LoginController.user;
-        resetTitle.setText("Password Reset For " + user.getUsername());
+        resetTitle.setText("Password Reset For\n" + user.getUsername());
         question = user.getSecretQuestion()[User.SecretQuestion.QUESTION.ordinal()];
         answer = user.getSecretQuestion()[User.SecretQuestion.ANSWER.ordinal()].toUpperCase();
 
@@ -51,8 +51,7 @@ public class ForgottenPassword extends AbstractController {
             try {
                 newScene("passwordReset.fxml", event);
             } catch (IOException e) {
-                // TODO Handle exception
-                e.printStackTrace();
+                incorrectAnswer.setText("Cannot Open Password Reset Page");
             }
 
         } else {
@@ -65,6 +64,7 @@ public class ForgottenPassword extends AbstractController {
      * @param event
      */
     public void Back(ActionEvent event) {
+        //TODO
         try {
             newScene("login.fxml", event);
         } catch (IOException e) {

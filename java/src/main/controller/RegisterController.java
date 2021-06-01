@@ -126,11 +126,11 @@ public class RegisterController extends AbstractController {
      * @param event
      */
     public void Back(ActionEvent event) {
+        //TODO
         try {
             newScene("login.fxml", event);
         } catch (IOException e) {
-            // TODO correctly handle exception
-            e.printStackTrace();
+            registrationSuccess.setText("Could not access Login page");
         }
     }
 

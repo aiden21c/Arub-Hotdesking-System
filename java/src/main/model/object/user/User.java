@@ -76,18 +76,27 @@ public abstract class User {
     public int getEmpID() {return empID;}
 
     public String getFirstName() {return firstName;}
+    public void setFirstName(String firstName) {this.firstName = firstName;}
 
     public String getLastName() {return lastName;}
+    public void setLastName(String lastName) {this.lastName = lastName;}
 
     public String getRole() {return role;}
+    public void setRole(String role) {this.role = role;}
 
     public int getAge(){return age;}
+    public void setAge(int age) {this.age = age;}
 
     public String getUsername() {return username;}
 
     public String getPassword() {return password;}
+    public void setNewPassword(String password) {this.password = password;}
 
     public String[] getSecretQuestion() {return secretQuestion;}
+    public void setSecretQuestion(String[] sq) {
+        secretQuestion[SecretQuestion.QUESTION.ordinal()] = sq[SecretQuestion.QUESTION.ordinal()];
+        secretQuestion[SecretQuestion.ANSWER.ordinal()] = sq[SecretQuestion.ANSWER.ordinal()];
+    }
 
     public ArrayList<Seat> getWhiteList() {return whitelist;}
 
@@ -107,15 +116,14 @@ public abstract class User {
                         if (age == user.age) {
                             if (username.equals(user.username)) {
                                 if (password.equals((user.password))) {
-                                    if(secretQuestion[SecretQuestion.QUESTION.ordinal()].equals(user.secretQuestion[SecretQuestion.QUESTION.ordinal()])) {
-                                        if(secretQuestion[SecretQuestion.ANSWER.ordinal()].equals(user.secretQuestion[SecretQuestion.ANSWER.ordinal()])) {                                            for (int i = 0; i < whitelist.size(); i++) {
-                                                if (whitelist.get(i).equals(user.whitelist.get(i))) {
-                                                    count++;
-                                                }
+                                    if(secretQuestionEquals(user.getSecretQuestion())) {
+                                        for (int i = 0; i < whitelist.size(); i++) {
+                                            if (whitelist.get(i).equals(user.whitelist.get(i))) {
+                                                count++;
                                             }
-                                            if (count == whitelist.size()) {
-                                                equals = true;
-                                            }
+                                        }
+                                        if (count == whitelist.size()) {
+                                            equals = true;
                                         }
                                     }
                                 }
@@ -126,14 +134,6 @@ public abstract class User {
             }
         }
         return equals;
-    }
-
-    /**
-     * Sets a new password for the user
-     * @param password the new password to be set for the user
-     */
-    public void setNewPassword(String password) {
-        this.password = password;
     }
 
     /**
@@ -155,7 +155,6 @@ public abstract class User {
         return Main.bookingDAO.createBooking(username);
     }
 
-
     /**
      * Update the whitelist, resetting it to default and then removing the given seat
      * @param seat the most recently booked seat to remove from the whitelist
@@ -168,6 +167,16 @@ public abstract class User {
                 whitelist.remove(i);
             }
         }
+    }
+
+    private boolean secretQuestionEquals(String[] sq) {
+        boolean eq = false;
+        if(secretQuestion[SecretQuestion.QUESTION.ordinal()].equals(sq[SecretQuestion.QUESTION.ordinal()])) {
+            if(secretQuestion[SecretQuestion.ANSWER.ordinal()].equals(sq[SecretQuestion.ANSWER.ordinal()])) {
+                eq = true;
+            }
+        }
+        return eq;
     }
 
 

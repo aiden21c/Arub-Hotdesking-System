@@ -5,6 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import main.Main;
+import main.model.object.user.Admin;
+import main.model.object.user.Employee;
 import main.model.object.user.User;
 
 import java.io.IOException;
@@ -25,12 +27,12 @@ public class LoginController extends AbstractController {
     // Check database connection
     @Override
     public void initialize(URL location, ResourceBundle resources){
+        user = null;
         if (Main.userDAO.isDbConnected()){
             isConnected.setText("Connected");
         }else{
             isConnected.setText("Not Connected");
         }
-
     }
 
     /**
@@ -38,22 +40,21 @@ public class LoginController extends AbstractController {
      * @param event
      */
     public void Login(ActionEvent event){
-
         try {
+            String sceneURL = "";
             user = Main.userDAO.createUser(txtUsername.getText());
-
             if (user.getPassword().equals(txtPassword.getText())) {
-                isConnected.setText("Login Successful");
-//                try {
-//                    newScene("<sceneURL>");
-//                } catch () { }
-
+                if(user instanceof Admin) {sceneURL = "adminPage.fxml";}
+                else if(user instanceof Employee) {sceneURL = "employeePage.fxml";}
+                newScene(sceneURL, event);
 
             } else {
                 isConnected.setText("Details Incorrect");
             }
         } catch (SQLException | ClassNotFoundException e) {
             isConnected.setText("Details Incorrect");
+        } catch (IOException e) {
+            isConnected.setText("Cannot Load New Page");
         }
     }
 
@@ -65,10 +66,8 @@ public class LoginController extends AbstractController {
         try {
             newScene("register.fxml", event);
         } catch (IOException e) {
-            // TODO correctly handle exception
-            e.printStackTrace();
+            isConnected.setText("Registration page unavailable");
         }
-
     }
 
     /**
@@ -81,7 +80,7 @@ public class LoginController extends AbstractController {
             newScene("forgottenPassword.fxml", event);
 
         } catch (SQLException | ClassNotFoundException | IOException e) {
-            isConnected.setText("Username Incorrect");
+            isConnected.setText("Invalid Username");
         }
     }
 }
