@@ -132,7 +132,7 @@ public class UserDAO extends AbstractDAO {
      * @param username the username of the user to delete from the database
      * @throws SQLException
      */
-    private void deleteUser(String username) throws SQLException {
+    public void deleteUser(String username) throws SQLException {
         Main.secretQuestionDAO.deleteSecretQuestion(username);
         Main.whiteListDAO.deleteWhiteList(username);
         Main.bookingDAO.deleteBooking(username);

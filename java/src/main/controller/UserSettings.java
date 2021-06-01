@@ -20,7 +20,6 @@ public class UserSettings extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userSingleton = UserSingleton.getInstance();
-
         heading.setText("User Settings For\n" + userSingleton.getUser().getUsername());
     }
 
