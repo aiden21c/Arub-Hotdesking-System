@@ -5,6 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.event.ActionEvent;
 import main.Main;
+import main.controller.singleton.UserSingleton;
 import main.model.object.user.Admin;
 import main.model.object.user.Employee;
 import main.model.object.user.User;
@@ -22,12 +23,14 @@ public class LoginController extends AbstractController {
     @FXML
     private TextField txtPassword;
 
-    static User user;
+    private UserSingleton userSingleton;
 
     // Check database connection
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        user = null;
+        userSingleton = UserSingleton.getInstance();
+        userSingleton.setUser(null);
+
         if (Main.userDAO.isDbConnected()){
             isConnected.setText("Connected");
         }else{
@@ -42,10 +45,10 @@ public class LoginController extends AbstractController {
     public void Login(ActionEvent event){
         try {
             String sceneURL = "";
-            user = Main.userDAO.createUser(txtUsername.getText());
-            if (user.getPassword().equals(txtPassword.getText())) {
-                if(user instanceof Admin) {sceneURL = "adminPage.fxml";}
-                else if(user instanceof Employee) {sceneURL = "employeePage.fxml";}
+            userSingleton.setUser(Main.userDAO.createUser(txtUsername.getText()));
+            if (userSingleton.getUser().getPassword().equals(txtPassword.getText())) {
+                if(userSingleton.getUser() instanceof Admin) {sceneURL = "adminPage.fxml";}
+                else if(userSingleton.getUser() instanceof Employee) {sceneURL = "employeePage.fxml";}
                 newScene(sceneURL, event);
 
             } else {
@@ -76,9 +79,8 @@ public class LoginController extends AbstractController {
      */
     public void ForgottenPassword(ActionEvent event) {
         try {
-            user = Main.userDAO.createUser(txtUsername.getText());
+            userSingleton.setUser(Main.userDAO.createUser(txtUsername.getText()));
             newScene("forgottenPassword.fxml", event);
-
         } catch (SQLException | ClassNotFoundException | IOException e) {
             isConnected.setText("Invalid Username");
         }

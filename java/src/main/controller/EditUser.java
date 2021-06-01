@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import main.Main;
+import main.controller.singleton.UserSingleton;
 import main.model.object.user.Employee;
 import main.model.object.user.User;
 import main.model.utilities.Utilities;
@@ -40,22 +41,22 @@ public class EditUser extends AbstractController {
     @FXML
     private Label ageError;
 
-    User user;
+    private UserSingleton userSingleton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        user = LoginController.user;
-        heading.setText("Edit " + user.getUsername().toUpperCase());
+        userSingleton = UserSingleton.getInstance();
+        heading.setText("Edit " + userSingleton.getUser().getUsername().toUpperCase());
 
-        employeeID.setText(Integer.toString(user.getEmpID()));
-        firstName.setText(user.getFirstName());
-        lastName.setText(user.getLastName());
-        role.setText(user.getRole());
-        username.setText(user.getUsername());
-        age.setText(Integer.toString(user.getAge()));
-        password.setText(user.getPassword());
-        secretQ.setText(user.getSecretQuestion()[User.SecretQuestion.QUESTION.ordinal()]);
-        secretA.setText(user.getSecretQuestion()[User.SecretQuestion.ANSWER.ordinal()]);
+        employeeID.setText(Integer.toString(userSingleton.getUser().getEmpID()));
+        firstName.setText(userSingleton.getUser().getFirstName());
+        lastName.setText(userSingleton.getUser().getLastName());
+        role.setText(userSingleton.getUser().getRole());
+        username.setText(userSingleton.getUser().getUsername());
+        age.setText(Integer.toString(userSingleton.getUser().getAge()));
+        password.setText(userSingleton.getUser().getPassword());
+        secretQ.setText(userSingleton.getUser().getSecretQuestion()[User.SecretQuestion.QUESTION.ordinal()]);
+        secretA.setText(userSingleton.getUser().getSecretQuestion()[User.SecretQuestion.ANSWER.ordinal()]);
     }
 
     /**
@@ -69,8 +70,8 @@ public class EditUser extends AbstractController {
         boolean success = true;
         String first, last, r, pw;
         first = last = r = pw = null;
-        String un = user.getUsername();
-        int empID = user.getEmpID();
+        String un = userSingleton.getUser().getUsername();
+        int empID = userSingleton.getUser().getEmpID();
         int a = 0;
         String[] secretQuestion = new String[2];
 
@@ -107,15 +108,15 @@ public class EditUser extends AbstractController {
         } else {success = false;}
 
         if(success) {
-            user.setFirstName(first);
-            user.setLastName(last);
-            user.setRole(r);
-            user.setAge(a);
-            user.setNewPassword(pw);
-            user.setSecretQuestion(secretQuestion);
+            userSingleton.getUser().setFirstName(first);
+            userSingleton.getUser().setLastName(last);
+            userSingleton.getUser().setRole(r);
+            userSingleton.getUser().setAge(a);
+            userSingleton.getUser().setNewPassword(pw);
+            userSingleton.getUser().setSecretQuestion(secretQuestion);
 
             try {
-                Main.userDAO.addUser(user);
+                Main.userDAO.addUser(userSingleton.getUser());
                 updateSuccess.setText("Update Successful");
             } catch (SQLException e) {
                 updateFail();
@@ -132,6 +133,10 @@ public class EditUser extends AbstractController {
         updateSuccess.setText("Update Failed");
     }
 
+    /**
+     * Takes the user back to their user settings page
+     * @param event
+     */
     public void back(ActionEvent event) {
         //TODO
         try {

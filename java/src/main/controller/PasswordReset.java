@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import main.Main;
-import main.model.object.user.User;
+import main.controller.singleton.UserSingleton;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,7 +22,7 @@ public class PasswordReset extends AbstractController {
     @FXML
     private Label resetSuccessful;
 
-    private User user;
+    private UserSingleton userSingleton;
 
     /**
      * Sets the scene by initializing the title label text
@@ -32,8 +32,8 @@ public class PasswordReset extends AbstractController {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        user = LoginController.user;
-        newPasswordTitle.setText("Enter a New Password For " + user.getUsername());
+        userSingleton = UserSingleton.getInstance();
+        newPasswordTitle.setText("Enter a New Password For " + userSingleton.getUser().getUsername());
     }
 
     /**
@@ -45,8 +45,8 @@ public class PasswordReset extends AbstractController {
         if(!txtPassword1.getText().isEmpty()) {
             if (txtPassword1.getText().equals(txtPassword2.getText())) {
                 try {
-                    user.setNewPassword(txtPassword1.getText());
-                    Main.userDAO.addUser(user);
+                    userSingleton.getUser().setNewPassword(txtPassword1.getText());
+                    Main.userDAO.addUser(userSingleton.getUser());
                     resetSuccessful.setText("Successfully Reset Password");
                 } catch (SQLException e) {
                     resetSuccessful.setText("Could not update password for given user");

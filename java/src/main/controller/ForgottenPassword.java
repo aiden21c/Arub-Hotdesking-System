@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import main.controller.singleton.UserSingleton;
 import main.model.object.user.User;
 
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class ForgottenPassword extends AbstractController {
     @FXML
     private Label incorrectAnswer;
 
-    private User user;
+    private UserSingleton userSingleton;
     private String question;
     private String answer;
 
@@ -32,10 +33,11 @@ public class ForgottenPassword extends AbstractController {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources){
-        user = LoginController.user;
-        resetTitle.setText("Password Reset For\n" + user.getUsername());
-        question = user.getSecretQuestion()[User.SecretQuestion.QUESTION.ordinal()];
-        answer = user.getSecretQuestion()[User.SecretQuestion.ANSWER.ordinal()].toUpperCase();
+        userSingleton = UserSingleton.getInstance();
+
+        resetTitle.setText("Password Reset For\n" + userSingleton.getUser().getUsername());
+        question = userSingleton.getUser().getSecretQuestion()[User.SecretQuestion.QUESTION.ordinal()];
+        answer = userSingleton.getUser().getSecretQuestion()[User.SecretQuestion.ANSWER.ordinal()].toUpperCase();
 
         secretQuestion.setText(question);
     }

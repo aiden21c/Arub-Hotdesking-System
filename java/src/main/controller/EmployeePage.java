@@ -3,6 +3,7 @@ package main.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import main.controller.singleton.UserSingleton;
 import main.model.object.user.User;
 
 import java.io.IOException;
@@ -13,12 +14,12 @@ public class EmployeePage extends AbstractController {
     @FXML
     private Label usernameLabel;
 
-    private User user;
+    private UserSingleton userSingleton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        user = LoginController.user;
-        usernameLabel.setText(user.getUsername().toUpperCase());
+        userSingleton = UserSingleton.getInstance();
+        usernameLabel.setText(userSingleton.getUser().getUsername().toUpperCase());
     }
 
     /**

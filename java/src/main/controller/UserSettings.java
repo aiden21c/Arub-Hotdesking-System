@@ -2,6 +2,7 @@ package main.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import main.controller.singleton.UserSingleton;
 import main.model.object.user.User;
 
 import javafx.event.ActionEvent;
@@ -14,12 +15,13 @@ public class UserSettings extends AbstractController {
     @FXML
     private Label heading;
 
-    private User user;
+    private UserSingleton userSingleton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        user = LoginController.user;
-        heading.setText("User Settings For\n" + user.getUsername());
+        userSingleton = UserSingleton.getInstance();
+
+        heading.setText("User Settings For\n" + userSingleton.getUser().getUsername());
     }
 
     public void editUser(ActionEvent event) {
