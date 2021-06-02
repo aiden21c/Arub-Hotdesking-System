@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import main.Main;
+import main.controller.singleton.EditUserSingleton;
+import main.controller.singleton.UserSingleton;
 import main.model.object.user.User;
 
 import java.io.IOException;
@@ -18,14 +20,19 @@ public class SearchUsernameController extends AbstractController {
     @FXML
     private TextField username;
 
+    private EditUserSingleton editUserSingleton;
+
     static User editUser;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) { }
+    public void initialize(URL location, ResourceBundle resources) {
+        editUserSingleton = EditUserSingleton.getInstance();
+        editUserSingleton.setUser(null);
+    }
 
     public void search(ActionEvent event) {
         try {
-            editUser = Main.userDAO.createUser(username.getText());
+            editUserSingleton.setUser(Main.userDAO.createUser(username.getText()));
             newScene("managementEditUser.fxml", event);
         } catch (SQLException | ClassNotFoundException e) {
             errorLabel.setText("This username does not exist");
@@ -37,6 +44,7 @@ public class SearchUsernameController extends AbstractController {
     public void back(ActionEvent event) {
         //TODO
         try {
+            editUserSingleton.setUser(null);
             newScene("management.fxml", event);
         } catch (IOException e) {
             errorLabel.setText("Management Page Not Found");

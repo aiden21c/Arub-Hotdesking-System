@@ -7,6 +7,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import main.Main;
+import main.controller.singleton.EditUserSingleton;
 import main.model.object.user.Admin;
 import main.model.object.user.Employee;
 import main.model.object.user.User;
@@ -51,23 +52,23 @@ public class ManagementEditUser extends AbstractController {
     @FXML
     private Button whiteListButton;
 
-    private User user;
+    private EditUserSingleton editUserSingleton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        user = SearchUsernameController.editUser;
-        heading.setText("Edit " + user.getUsername().toUpperCase());
+        editUserSingleton = EditUserSingleton.getInstance();
+        heading.setText("Edit " + editUserSingleton.getUser().getUsername().toUpperCase());
 
-        employeeID.setText(Integer.toString(user.getEmpID()));
-        firstName.setText(user.getFirstName());
-        lastName.setText(user.getLastName());
-        role.setText(user.getRole());
-        username.setText(user.getUsername());
-        age.setText(Integer.toString(user.getAge()));
-        password.setText(user.getPassword());
-        secretQ.setText(user.getSecretQuestion()[User.SecretQuestion.QUESTION.ordinal()]);
-        secretA.setText(user.getSecretQuestion()[User.SecretQuestion.ANSWER.ordinal()]);
-        adminCheck.setSelected(user instanceof Admin);
+        employeeID.setText(Integer.toString(editUserSingleton.getUser().getEmpID()));
+        firstName.setText(editUserSingleton.getUser().getFirstName());
+        lastName.setText(editUserSingleton.getUser().getLastName());
+        role.setText(editUserSingleton.getUser().getRole());
+        username.setText(editUserSingleton.getUser().getUsername());
+        age.setText(Integer.toString(editUserSingleton.getUser().getAge()));
+        password.setText(editUserSingleton.getUser().getPassword());
+        secretQ.setText(editUserSingleton.getUser().getSecretQuestion()[User.SecretQuestion.QUESTION.ordinal()]);
+        secretA.setText(editUserSingleton.getUser().getSecretQuestion()[User.SecretQuestion.ANSWER.ordinal()]);
+        adminCheck.setSelected(editUserSingleton.getUser() instanceof Admin);
     }
 
     /**
@@ -81,8 +82,8 @@ public class ManagementEditUser extends AbstractController {
         boolean success = true;
         String first, last, r, pw;
         first = last = r = pw = null;
-        String un = user.getUsername();
-        int empID = user.getEmpID();
+        String un = editUserSingleton.getUser().getUsername();
+        int empID = editUserSingleton.getUser().getEmpID();
         int a = 0;
         String[] secretQuestion = new String[2];
 
@@ -122,14 +123,14 @@ public class ManagementEditUser extends AbstractController {
 
         if(success) {
             if(admin) {
-                user = new Admin(empID, first, last, r, a, un, pw, secretQuestion, user.getWhiteList());
+                editUserSingleton.setUser(new Admin(empID, first, last, r, a, un, pw, secretQuestion, editUserSingleton.getUser().getWhiteList()));
             } else {
-                user = new Employee(empID, first, last, r, a, un, pw, secretQuestion, user.getWhiteList());
+                editUserSingleton.setUser(new Employee(empID, first, last, r, a, un, pw, secretQuestion, editUserSingleton.getUser().getWhiteList()));
             }
 
             try {
                 Main.userDAO.deleteUser(un);
-                Main.userDAO.addUser(user);
+                Main.userDAO.addUser(editUserSingleton.getUser());
                 updateSuccess.setText("Update Successful");
             } catch (SQLException e) {
                 updateFail();
@@ -148,12 +149,12 @@ public class ManagementEditUser extends AbstractController {
 
     public void deleteUser(ActionEvent event) {
         try {
-            String un = user.getUsername();
+            String un = editUserSingleton.getUser().getUsername();
             Main.userDAO.deleteUser(un);
             heading.setText(un.toUpperCase() + " Was Deleted");
             updateSuccess.setText(un + " Was Deleted");
             hideFields(un);
-            user = null;
+            editUserSingleton.setUser(null);
         } catch (SQLException e) {
             updateSuccess.setText("User could not be deleted");
         }
@@ -161,8 +162,12 @@ public class ManagementEditUser extends AbstractController {
     }
 
     public void editWhitelist(ActionEvent event) {
-        updateSuccess.setText("Whitelist button pressed");
-        //TODO
+        try {
+            newScene("editWhitelist.fxml", event);
+        } catch (IOException e) {
+            e.printStackTrace();
+            updateSuccess.setText("EditWhiteList Unavailable");
+        }
     }
 
     /**
@@ -172,6 +177,7 @@ public class ManagementEditUser extends AbstractController {
     public void back(ActionEvent event) {
         //TODO
         try {
+            editUserSingleton.setUser(null);
             newScene("management.fxml", event);
         } catch (IOException e) {
             updateSuccess.setText("Cannot access management page");

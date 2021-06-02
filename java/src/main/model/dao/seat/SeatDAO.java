@@ -122,7 +122,7 @@ public class SeatDAO extends AbstractDAO {
         ArrayList<Seat> seats = new ArrayList<>();
         PreparedStatement ps;
         ResultSet rs;
-        String queryString = "select seatNo from Seat";
+        String queryString = "select seatNo from Seat order by seatNo asc";
         ps = connection.prepareStatement(queryString);
 
         rs = ps.executeQuery();

@@ -45,7 +45,7 @@ public class WhiteListDAO extends AbstractDAO {
         ArrayList<Seat> whitelist = new ArrayList<>();
         PreparedStatement ps;
         ResultSet rs;
-        String queryString = "select seatNo from WhiteList where username = ?";
+        String queryString = "select seatNo from WhiteList where username = ? order by seatNo asc";
         ps = connection.prepareStatement(queryString);
         ps.setString(TableValues.USERNAME.ordinal() + 1, username);
 
