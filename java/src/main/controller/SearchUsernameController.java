@@ -21,19 +21,23 @@ public class SearchUsernameController extends AbstractController {
     private TextField username;
 
     private EditUserSingleton editUserSingleton;
-
-    static User editUser;
+    private UserSingleton userSingleton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        userSingleton = UserSingleton.getInstance();
         editUserSingleton = EditUserSingleton.getInstance();
         editUserSingleton.setUser(null);
     }
 
     public void search(ActionEvent event) {
         try {
-            editUserSingleton.setUser(Main.userDAO.createUser(username.getText()));
-            newScene("managementEditUser.fxml", event);
+            if(!username.getText().equalsIgnoreCase(userSingleton.getUser().getUsername())) {
+                editUserSingleton.setUser(Main.userDAO.createUser(username.getText()));
+                newScene("managementEditUser.fxml", event);
+            } else {
+                errorLabel.setText("Cannot Search For Yourself");
+            }
         } catch (SQLException | ClassNotFoundException e) {
             errorLabel.setText("This username does not exist");
         } catch (IOException e) {
