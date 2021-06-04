@@ -5,6 +5,7 @@ import main.model.dao.AbstractDAO;
 import main.model.object.seat.Seat;
 import main.model.object.user.User;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -99,5 +100,9 @@ public class WhiteListDAO extends AbstractDAO {
 
         ps.execute();
         ps.close();
+    }
+
+    public void export() throws SQLException, IOException {
+        super.export("WhiteList");
     }
 }

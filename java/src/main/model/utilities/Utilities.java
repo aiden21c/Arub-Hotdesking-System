@@ -47,4 +47,14 @@ public class Utilities {
         }
         return x;
     }
+
+    /**
+     * Inspired from <https://www.codejava.net/coding/java-code-example-to-export-from-database-to-csv-file>
+     * Escape with Double Quotes all forward slashes within a string
+     * @param value the string to double quotes escape the \
+     * @return a new string with forward slashes escaped
+     */
+    public static String escapeDoubleQuotes(String value) {
+        return value.replaceAll("\"", "\"\"");
+    }
 }

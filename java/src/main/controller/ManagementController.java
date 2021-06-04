@@ -44,7 +44,11 @@ public class ManagementController extends AbstractController {
     }
 
     public void generateReports(ActionEvent event) {
-        //TODO
+        try {
+            newScene("generateReports.fxml", event);
+        } catch (IOException e) {
+            heading.setText("Cannot Access Reports Page");
+        }
     }
 
     public void back(ActionEvent event) {

@@ -1,5 +1,6 @@
 package main.model.dao.user;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -145,6 +146,10 @@ public class UserDAO extends AbstractDAO {
 
         ps.execute();
         ps.close();
+    }
+
+    public void export() throws SQLException, IOException {
+        super.export("Employee NATURAL JOIN SecretQuestion");
     }
 
 }

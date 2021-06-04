@@ -4,6 +4,7 @@ import main.model.dao.AbstractDAO;
 import main.model.object.seat.Seat;
 import main.model.utilities.Utilities;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -89,6 +90,10 @@ public class BlockOutDAO extends AbstractDAO {
         ps.setInt( TableValues.SEATNO.ordinal() + 1, seatNo);
         ps.execute();
         ps.close();
+    }
+
+    public void export() throws SQLException, IOException {
+        super.export("BlockOut");
     }
 
 }
