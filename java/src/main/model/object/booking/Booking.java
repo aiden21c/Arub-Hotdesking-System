@@ -11,6 +11,7 @@ public class Booking {
     private User user;
     private boolean pending;
     private LocalDate date;
+    private boolean completed;
 
     /**
      * Constructor to create a new booking from UI. Sets pending to true
@@ -20,16 +21,18 @@ public class Booking {
         this.user = user;
         setPending(true);
         this.date = date;
+        setCompleted(false);
     }
 
     /**
      * Constructor to create a new booking from database
      */
-    public Booking(Seat seat, User user, boolean pending, LocalDate date) {
+    public Booking(Seat seat, User user, boolean pending, LocalDate date, boolean completed) {
         this.seat = seat;
         this.user = user;
         setPending(pending);
         this.date = date;
+        setCompleted(completed);
     }
 
     public Seat getSeat() {return seat;}
@@ -39,6 +42,10 @@ public class Booking {
     public boolean getPending() {return pending;}
 
     public void setPending(boolean pending) {this.pending = pending;}
+
+    public boolean getCompleted() {return completed;}
+
+    public void setCompleted(boolean completed) {this.completed = completed;}
 
     public LocalDate getDate() {return date;}
 
@@ -68,5 +75,6 @@ public class Booking {
      */
     public void checkIn() throws SQLException {
         user.updateWhiteList(seat);
+        setCompleted(true);
     }
 }

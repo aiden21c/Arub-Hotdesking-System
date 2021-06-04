@@ -8,7 +8,6 @@ import main.Main;
 import main.controller.singleton.UserSingleton;
 import main.model.object.user.Admin;
 import main.model.object.user.Employee;
-import main.model.object.user.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,9 +30,11 @@ public class LoginController extends AbstractController {
         userSingleton = UserSingleton.getInstance();
         userSingleton.setUser(null);
 
-        if (Main.userDAO.isDbConnected()){
+        try {
+            Main.bookingDAO.deleteUnconfirmedBookings();
+            Main.bookingDAO.deleteIncompleteBookings();
             isConnected.setText("Connected");
-        }else{
+        } catch (SQLException e) {
             isConnected.setText("Not Connected");
         }
     }
@@ -45,7 +46,7 @@ public class LoginController extends AbstractController {
     public void Login(ActionEvent event){
         try {
             String sceneURL = "";
-            userSingleton.setUser(Main.userDAO.createUser(txtUsername.getText()));
+            userSingleton.searchUser(txtUsername.getText());
             if (userSingleton.getUser().getPassword().equals(txtPassword.getText())) {
                 if(userSingleton.getUser() instanceof Admin) {sceneURL = "adminPage.fxml";}
                 else if(userSingleton.getUser() instanceof Employee) {sceneURL = "employeePage.fxml";}
@@ -79,7 +80,7 @@ public class LoginController extends AbstractController {
      */
     public void ForgottenPassword(ActionEvent event) {
         try {
-            userSingleton.setUser(Main.userDAO.createUser(txtUsername.getText()));
+            userSingleton.searchUser(txtUsername.getText());
             newScene("forgottenPassword.fxml", event);
         } catch (SQLException | ClassNotFoundException | IOException e) {
             isConnected.setText("Invalid Username");

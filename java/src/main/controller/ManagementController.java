@@ -20,7 +20,11 @@ public class ManagementController extends AbstractController {
     }
 
     public void covidConditions(ActionEvent event) {
-        //TODO
+        try {
+            newScene("covidConditions.fxml", event);
+        } catch (IOException e) {
+            heading.setText("Cannot Access CovidConditions Page");
+        }
     }
 
     public void addEmployee(ActionEvent event) {

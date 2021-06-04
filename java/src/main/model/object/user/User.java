@@ -152,7 +152,7 @@ public abstract class User {
      * @throws ClassNotFoundException
      */
     public Booking viewCurrentBooking() throws SQLException, ClassNotFoundException {
-        return Main.bookingDAO.createBooking(username);
+        return Main.bookingDAO.createCurrentBooking(username);
     }
 
     /**

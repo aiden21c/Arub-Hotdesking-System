@@ -4,10 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import main.Main;
 import main.controller.singleton.EditUserSingleton;
 import main.controller.singleton.UserSingleton;
-import main.model.object.user.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,7 +31,7 @@ public class SearchUsernameController extends AbstractController {
     public void search(ActionEvent event) {
         try {
             if(!username.getText().equalsIgnoreCase(userSingleton.getUser().getUsername())) {
-                editUserSingleton.setUser(Main.userDAO.createUser(username.getText()));
+                editUserSingleton.searchUser(username.getText());
                 newScene("managementEditUser.fxml", event);
             } else {
                 errorLabel.setText("Cannot Search For Yourself");

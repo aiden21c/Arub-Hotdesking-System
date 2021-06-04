@@ -120,12 +120,10 @@ public class SeatDAO extends AbstractDAO {
     public ArrayList<Seat> getAllSeats() throws SQLException {
         assert connection != null;
         ArrayList<Seat> seats = new ArrayList<>();
-        PreparedStatement ps;
-        ResultSet rs;
         String queryString = "select seatNo from Seat order by seatNo asc";
-        ps = connection.prepareStatement(queryString);
+        PreparedStatement ps = connection.prepareStatement(queryString);
 
-        rs = ps.executeQuery();
+        ResultSet rs = ps.executeQuery();
 
         ArrayList<Integer> seatNo = new ArrayList<>();
 
@@ -139,7 +137,51 @@ public class SeatDAO extends AbstractDAO {
         for (Integer integer : seatNo) {
             seats.add(Main.seatDAO.createSeat(integer));
         }
-
         return seats;
+    }
+
+    /**
+     * Sets the normal conditions of the office, allowing all seats to be booked
+     * @throws SQLException
+     */
+    public void setNormalConditions() throws SQLException {
+        assert connection != null;
+
+        String stringQuery = "UPDATE Seat SET blockOut = ?";
+        PreparedStatement ps = connection.prepareStatement(stringQuery);
+        ps.setBoolean(1, false);
+
+        ps.execute();
+        ps.close();
+    }
+
+    /**
+     * Sets the Covid conditions of the office, allowing every second seat to be booked
+     * @throws SQLException
+     */
+    public void setCovidConditions() throws SQLException {
+        assert connection != null;
+
+        String stringQuery = "UPDATE Seat SET blockOut = ? where (seatNo % 2) = 0";
+        PreparedStatement ps = connection.prepareStatement(stringQuery);
+        ps.setBoolean(1, true);
+
+        ps.execute();
+        ps.close();
+    }
+
+    /**
+     * Sets the lockdown conditions of the office, allowing no seat to be booked
+     * @throws SQLException
+     */
+    public void lockDown() throws SQLException {
+        assert connection != null;
+
+        String stringQuery = "UPDATE Seat SET blockOut = ?";
+        PreparedStatement ps = connection.prepareStatement(stringQuery);
+        ps.setBoolean(1, true);
+
+        ps.execute();
+        ps.close();
     }
 }

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 
 public class BookingDAO extends AbstractDAO {
 
-    private enum TableValues {SEATNO, USERNAME, PENDING, DATE}
+    private enum TableValues {SEATNO, USERNAME, PENDING, DATE, COMPLETED}
 
     /**
      * Adds a given booking to the database
@@ -26,7 +26,7 @@ public class BookingDAO extends AbstractDAO {
         if (exists(booking)) {deleteBooking(booking);}
 
         assert connection != null;
-        String queryString = "INSERT INTO Booking(seatno, username, pending, date) VALUES (?,?,?,DATE(?))";
+        String queryString = "INSERT INTO Booking(seatno, username, pending, date, completed) VALUES (?,?,?,DATE(?), ?)";
 
         PreparedStatement ps = connection.prepareStatement(queryString);
 
@@ -34,6 +34,7 @@ public class BookingDAO extends AbstractDAO {
         ps.setString(TableValues.USERNAME.ordinal() + 1, booking.getUser().getUsername());
         ps.setBoolean(TableValues.PENDING.ordinal() + 1, booking.getPending());
         ps.setString(TableValues.DATE.ordinal() + 1, booking.getDate().toString());
+        ps.setBoolean(TableValues.COMPLETED.ordinal() + 1, booking.getCompleted());
 
         ps.execute();
         ps.close();
@@ -46,18 +47,20 @@ public class BookingDAO extends AbstractDAO {
      * @throws SQLException if a booking cannot be found with given parameters
      * @throws ClassNotFoundException
      */
-    public Booking createBooking(String username) throws SQLException, ClassNotFoundException {
+    public Booking createCurrentBooking(String username) throws SQLException, ClassNotFoundException {
         PreparedStatement ps;
         ResultSet rs;
-        String queryString = "select * from Booking where username = ?";
+        String queryString = "select * from Booking where username = ? and completed = ?";
         ps = connection.prepareStatement(queryString);
         ps.setString(1, username);
+        ps.setBoolean(2, false);
 
         rs = ps.executeQuery();
 
         int seatNo = rs.getInt("seatNo");
         boolean pending = rs.getBoolean("pending");
         LocalDate date = Utilities.stringToDate(rs.getString("date"));
+        boolean completed = rs.getBoolean("completed");
 
         ps.close();
         rs.close();
@@ -65,7 +68,7 @@ public class BookingDAO extends AbstractDAO {
         Seat seat = Main.seatDAO.createSeat(seatNo);
         User user = Main.userDAO.createUser(username);
 
-        return new Booking(seat, user, pending, date);
+        return new Booking(seat, user, pending, date, completed);
     }
 
     /**
@@ -76,18 +79,20 @@ public class BookingDAO extends AbstractDAO {
      * @throws SQLException if a booking cannot be found with given parameters
      * @throws ClassNotFoundException
      */
-    public Booking createBooking(int seatNo, LocalDate date) throws SQLException, ClassNotFoundException {
+    public Booking createCurrentBooking(int seatNo, LocalDate date) throws SQLException, ClassNotFoundException {
         PreparedStatement ps;
         ResultSet rs;
-        String queryString = "select * from Booking where seatNo = ? and date = DATE(?)";
+        String queryString = "select * from Booking where seatNo = ? and date = DATE(?) and completed = ?";
         ps = connection.prepareStatement(queryString);
         ps.setInt( 1, seatNo);
         ps.setString(2, date.toString());
+        ps.setBoolean(3, false);
 
         rs = ps.executeQuery();
 
         String username = rs.getString("username");
         boolean pending = rs.getBoolean("pending");
+        boolean completed = rs.getBoolean("completed");
 
         ps.close();
         rs.close();
@@ -95,7 +100,7 @@ public class BookingDAO extends AbstractDAO {
         Seat seat = Main.seatDAO.createSeat(seatNo);
         User user = Main.userDAO.createUser(username);
 
-        return new Booking(seat, user, pending, date);
+        return new Booking(seat, user, pending, date, completed);
     }
 
     /**
@@ -106,10 +111,11 @@ public class BookingDAO extends AbstractDAO {
     private void deleteBooking(Booking booking) throws SQLException {
         assert connection != null;
 
-        String queryString = "delete from Booking where seatNo = ? and username = ?";
+        String queryString = "delete from Booking where seatNo = ? and username = ? and date = DATE(?)";
         PreparedStatement ps = connection.prepareStatement(queryString);
         ps.setInt(TableValues.SEATNO.ordinal() + 1, booking.getSeat().getSeatNo());
         ps.setString(TableValues.USERNAME.ordinal() + 1, booking.getUser().getUsername());
+        ps.setString(3, booking.getDate().toString());
 
         ps.execute();
         ps.close();
@@ -127,10 +133,11 @@ public class BookingDAO extends AbstractDAO {
         assert connection != null;
 
         ResultSet rs;
-        String queryString = "SELECT COUNT(*) count FROM Booking WHERE seatNo = ? and username = ?";
+        String queryString = "SELECT COUNT(*) count FROM Booking WHERE seatNo = ? and username = ? and date = DATE(?)";
         PreparedStatement ps = connection.prepareStatement(queryString);
         ps.setInt(TableValues.SEATNO.ordinal() + 1, booking.getSeat().getSeatNo());
         ps.setString(TableValues.USERNAME.ordinal() + 1, booking.getUser().getUsername());
+        ps.setString(3, booking.getDate().toString());
 
         rs = ps.executeQuery();
 
@@ -218,9 +225,10 @@ public class BookingDAO extends AbstractDAO {
         assert connection != null;
 
         ResultSet rs;
-        String queryString = "SELECT COUNT(*) count FROM Booking WHERE username = ?";
+        String queryString = "SELECT COUNT(*) count FROM Booking WHERE username = ? and completed = ?";
         PreparedStatement ps = connection.prepareStatement(queryString);
         ps.setString(1, username);
+        ps.setBoolean(2, false);
 
         rs = ps.executeQuery();
 
@@ -232,6 +240,62 @@ public class BookingDAO extends AbstractDAO {
         ps.close();
 
         return hasBooking;
+    }
+
+    /**
+     * Deletes all bookings which have not been confirmed within 24 hours of commencement
+     * @throws SQLException
+     */
+    public void deleteUnconfirmedBookings() throws SQLException {
+        LocalDate date = LocalDate.now();
+        LocalDate lt = date.plusDays(2);
+
+        assert connection != null;
+        String queryString = "DELETE from Booking where pending = ? and date < DATE(?) and completed = ?";
+        PreparedStatement ps = connection.prepareStatement(queryString);
+
+        ps.setBoolean(1, true);
+        ps.setString(2, lt.toString());
+        ps.setBoolean(3, false);
+
+        ps.execute();
+        ps.close();
+    }
+
+    /**
+     * Deletes the bookings based on covid conditions.
+     *      All seats will need to be rebooked for all future dates
+     * @throws SQLException
+     */
+    public void setCovidConditions() throws SQLException {
+        LocalDate date = LocalDate.now();
+
+        assert connection != null;
+        String queryString = "DELETE from Booking where date > DATE(?)";
+        PreparedStatement ps = connection.prepareStatement(queryString);
+
+        ps.setString(1, date.toString());
+
+        ps.execute();
+        ps.close();
+    }
+
+    /**
+     * Deletes all bookings which have not been completed since the booking occured
+     * @throws SQLException
+     */
+    public void deleteIncompleteBookings() throws SQLException {
+        LocalDate date = LocalDate.now();
+
+        assert connection != null;
+        String queryString = "DELETE from Booking where date > DATE(?) and completed = ?";
+        PreparedStatement ps = connection.prepareStatement(queryString);
+
+        ps.setString(1, date.toString());
+        ps.setBoolean(2, false);
+
+        ps.execute();
+        ps.close();
     }
 
 

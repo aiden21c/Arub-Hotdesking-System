@@ -4,9 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import main.Main;
 import main.controller.singleton.UserSingleton;
-import main.model.object.user.Employee;
 import main.model.object.user.User;
 import main.model.utilities.Utilities;
 
@@ -116,7 +114,7 @@ public class EditUser extends AbstractController {
             userSingleton.getUser().setSecretQuestion(secretQuestion);
 
             try {
-                Main.userDAO.addUser(userSingleton.getUser());
+                userSingleton.writeToDatabase();
                 updateSuccess.setText("Update Successful");
             } catch (SQLException e) {
                 updateFail();

@@ -129,8 +129,8 @@ public class ManagementEditUser extends AbstractController {
             }
 
             try {
-                Main.userDAO.deleteUser(un);
-                Main.userDAO.addUser(editUserSingleton.getUser());
+                editUserSingleton.deleteUser();
+                editUserSingleton.writeToDatabase();
                 updateSuccess.setText("Update Successful");
             } catch (SQLException e) {
                 updateFail();
@@ -150,7 +150,7 @@ public class ManagementEditUser extends AbstractController {
     public void deleteUser(ActionEvent event) {
         try {
             String un = editUserSingleton.getUser().getUsername();
-            Main.userDAO.deleteUser(un);
+            editUserSingleton.deleteUser();
             heading.setText(un.toUpperCase() + " Was Deleted");
             updateSuccess.setText(un + " Was Deleted");
             hideFields(un);

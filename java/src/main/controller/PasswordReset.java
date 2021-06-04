@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import main.Main;
 import main.controller.singleton.UserSingleton;
 
 import java.io.IOException;
@@ -46,7 +45,7 @@ public class PasswordReset extends AbstractController {
             if (txtPassword1.getText().equals(txtPassword2.getText())) {
                 try {
                     userSingleton.getUser().setNewPassword(txtPassword1.getText());
-                    Main.userDAO.addUser(userSingleton.getUser());
+                    userSingleton.writeToDatabase();
                     resetSuccessful.setText("Successfully Reset Password");
                 } catch (SQLException e) {
                     resetSuccessful.setText("Could not update password for given user");

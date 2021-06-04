@@ -3,7 +3,6 @@ package main.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import main.controller.singleton.UserSingleton;
-import main.model.object.user.User;
 
 import javafx.event.ActionEvent;
 
