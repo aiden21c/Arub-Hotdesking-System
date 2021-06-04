@@ -99,7 +99,7 @@ public class EditWhiteListController extends AbstractController {
 
     public void back(ActionEvent event) {
         try {
-            newScene("managementEditUser.fxml", event);
+            super.back(event);
         } catch (IOException e) {
             updateSuccess.setText("EditUser Page Unavailable");
         }

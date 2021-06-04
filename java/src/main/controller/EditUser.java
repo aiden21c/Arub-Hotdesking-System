@@ -136,9 +136,8 @@ public class EditUser extends AbstractController {
      * @param event
      */
     public void back(ActionEvent event) {
-        //TODO
         try {
-            newScene("user.fxml", event);
+            super.back(event);
         } catch (IOException e) {
             updateSuccess.setText("Cannot access UserSettings page");
         }

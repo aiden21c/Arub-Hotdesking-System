@@ -42,7 +42,7 @@ public class GenerateReportsController extends AbstractController {
      */
     public void done(ActionEvent event) {
         try {
-            newScene("management.fxml", event);
+            super.back(event);
         } catch (IOException e) {
             updateLabel.setText("Cannot Access CovidConditions Page");
         }

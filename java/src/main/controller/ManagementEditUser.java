@@ -175,10 +175,9 @@ public class ManagementEditUser extends AbstractController {
      * @param event
      */
     public void back(ActionEvent event) {
-        //TODO
         try {
             editUserSingleton.setUser(null);
-            newScene("management.fxml", event);
+            super.back(event);
         } catch (IOException e) {
             updateSuccess.setText("Cannot access management page");
         }

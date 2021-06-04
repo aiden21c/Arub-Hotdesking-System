@@ -65,13 +65,11 @@ public class ForgottenPassword extends AbstractController {
      * Takes user back to the login page
      * @param event
      */
-    public void Back(ActionEvent event) {
-        //TODO
+    public void back(ActionEvent event) {
         try {
             newScene("login.fxml", event);
         } catch (IOException e) {
-            // TODO correctly handle exception
-            e.printStackTrace();
+            incorrectAnswer.setText("Cannot Open Login Page");
         }
     }
 

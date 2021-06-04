@@ -125,10 +125,9 @@ public class RegisterController extends AbstractController {
      * Takes the user back to the login page
      * @param event
      */
-    public void Back(ActionEvent event) {
-        //TODO
+    public void back(ActionEvent event) {
         try {
-            newScene("login.fxml", event);
+            super.back(event);
         } catch (IOException e) {
             registrationSuccess.setText("Could not access Login page");
         }

@@ -44,10 +44,9 @@ public class SearchUsernameController extends AbstractController {
     }
 
     public void back(ActionEvent event) {
-        //TODO
         try {
             editUserSingleton.setUser(null);
-            newScene("management.fxml", event);
+            super.back(event);
         } catch (IOException e) {
             errorLabel.setText("Management Page Not Found");
         }

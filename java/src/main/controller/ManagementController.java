@@ -52,9 +52,8 @@ public class ManagementController extends AbstractController {
     }
 
     public void back(ActionEvent event) {
-        //TODO
         try {
-            newScene("adminPage.fxml", event);
+            super.back(event);
         } catch (IOException e) {
             heading.setText("Cannot Access Admin Page");
         }

@@ -82,7 +82,7 @@ public class CurrentBookingController extends AbstractController {
     public void back(ActionEvent event) {
         try {
             bookingSingleton.setBooking(null);
-            newScene("adminPage.fxml", event);
+            super.back(event);
         } catch (IOException e) {
             updateLabel.setText("Cannot Access Admin Page");
         }

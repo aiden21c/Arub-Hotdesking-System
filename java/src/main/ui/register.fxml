@@ -27,7 +27,7 @@
       <TextField fx:id="secretA" layoutX="275.0" layoutY="231.0" promptText="Secret Answer" />
       <PasswordField fx:id="password" layoutX="161.0" layoutY="271.0" promptText="Password" />
       <Button layoutX="196.0" layoutY="308.0" mnemonicParsing="false" onAction="#Register" prefHeight="27.0" prefWidth="96.0" text="Register" />
-      <Button layoutX="18.0" layoutY="308.0" mnemonicParsing="false" onAction="#Back" text="Back" />
+      <Button layoutX="18.0" layoutY="308.0" mnemonicParsing="false" onAction="#back" text="Back" />
       <Label fx:id="registrationSuccess" alignment="CENTER" layoutX="301.0" layoutY="313.0" prefHeight="17.0" prefWidth="167.0" textFill="#178d07" />
    </children>
 </AnchorPane>

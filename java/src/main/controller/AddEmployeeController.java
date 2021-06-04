@@ -130,9 +130,8 @@ public class AddEmployeeController extends AbstractController {
      * @param event
      */
     public void back(ActionEvent event) {
-        //TODO
         try {
-            newScene("management.fxml", event);
+            super.back(event);
         } catch (IOException e) {
             registrationSuccess.setText("Could not access Management page");
         }

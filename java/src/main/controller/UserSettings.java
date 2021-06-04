@@ -39,7 +39,11 @@ public class UserSettings extends AbstractController {
     }
 
     public void back(ActionEvent event) {
-        //TODO
+        try {
+            super.back(event);
+        } catch (IOException e) {
+            heading.setText("User Page Not Found");
+        }
     }
 
 

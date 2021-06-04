@@ -64,7 +64,7 @@ public class CovidConditionsController extends AbstractController {
      */
     public void back(ActionEvent event) {
         try {
-            newScene("management.fxml", event);
+            super.back(event);
         } catch (IOException e) {
             updateLabel.setText("Cannot Access CovidConditions Page");
         }

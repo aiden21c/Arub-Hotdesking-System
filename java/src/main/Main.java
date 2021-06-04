@@ -14,6 +14,8 @@ import main.model.dao.user.WhiteListDAO;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main extends Application {
     public static final UserDAO userDAO = new UserDAO();
@@ -23,9 +25,13 @@ public class Main extends Application {
     public static final BlockOutDAO blockOutDAO = new BlockOutDAO();
     public static final BookingDAO bookingDAO = new BookingDAO();
 
+    public static List<String> fxmlval = new ArrayList<String>();
+
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("ui/login.fxml"));
+        String url = "login.fxml";
+        fxmlval.add(url);
+        Parent root = FXMLLoader.load(getClass().getResource("ui/" + url));
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

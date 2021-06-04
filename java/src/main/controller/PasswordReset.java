@@ -62,10 +62,9 @@ public class PasswordReset extends AbstractController {
      */
     public void Back(ActionEvent event) {
         try {
-            newScene("login.fxml", event);
+            super.back(event);
         } catch (IOException e) {
-            //TODO correctly handle exception
-            e.printStackTrace();
+            resetSuccessful.setText("Cannot Access Login Page");
         }
     }
 
