@@ -146,16 +146,6 @@ public abstract class User {
     }
 
     /**
-     * Obtains a booking object of the users current booking
-     * @return the current booking object
-     * @throws SQLException if a booking for the user cannot be found in the database
-     * @throws ClassNotFoundException
-     */
-    public Booking viewCurrentBooking() throws SQLException, ClassNotFoundException {
-        return Main.bookingDAO.createCurrentBooking(username);
-    }
-
-    /**
      * Update the whitelist, resetting it to default and then removing the given seat
      * @param seat the most recently booked seat to remove from the whitelist
      */

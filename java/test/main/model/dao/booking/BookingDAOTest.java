@@ -29,14 +29,15 @@ public class BookingDAOTest {
             System.out.println("User or seat does not exist in the database for the given information");
         }
 
-        LocalDate date = LocalDate.of(2021, 07, 02);
+//        LocalDate date = LocalDate.of(2021, 07, 04);
+        LocalDate date = LocalDate.now();
 
         Booking booking = new Booking(seat, user, date);
         Booking bookingTest = null;
 
         try {
             Main.bookingDAO.addBooking(booking);
-            bookingTest = Main.bookingDAO.createCurrentBooking(username);
+            bookingTest = Main.bookingDAO.createCurrentBooking(user);
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println("Could not add or retrieve the booking object created from the database");
         }

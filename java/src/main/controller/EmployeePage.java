@@ -36,11 +36,14 @@ public class EmployeePage extends AbstractController {
 
     /**
      * Takes the user to their current booking page
-     * @param actionEvent
+     * @param event
      */
-    public void currentBooking(ActionEvent actionEvent) {
-        // TODO
-        System.out.println("currentBooking clicked");
+    public void currentBooking(ActionEvent event) {
+        try {
+            newScene("currentBooking.fxml", event);
+        } catch (IOException e) {
+            usernameLabel.setText("Cannot find Booking page");
+        }
     }
 
     /**

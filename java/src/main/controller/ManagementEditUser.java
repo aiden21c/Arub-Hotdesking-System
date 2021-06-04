@@ -153,7 +153,7 @@ public class ManagementEditUser extends AbstractController {
             editUserSingleton.deleteUser();
             heading.setText(un.toUpperCase() + " Was Deleted");
             updateSuccess.setText(un + " Was Deleted");
-            hideFields(un);
+            hideFields();
             editUserSingleton.setUser(null);
         } catch (SQLException e) {
             updateSuccess.setText("User could not be deleted");
@@ -184,7 +184,7 @@ public class ManagementEditUser extends AbstractController {
         }
     }
 
-    private void hideFields(String un) {
+    private void hideFields() {
         firstName.setEditable(false);
         lastName.setEditable(false);
         role.setEditable(false);

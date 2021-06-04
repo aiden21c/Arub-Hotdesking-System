@@ -43,17 +43,17 @@ public class BookingDAO extends AbstractDAO {
 
     /**
      * Creates a booking object from a row in the database
-     * @param username the given username of the booking
+     * @param user the given username of the booking
      * @return a booking object with values associated with given parameters
      * @throws SQLException if a booking cannot be found with given parameters
      * @throws ClassNotFoundException
      */
-    public Booking createCurrentBooking(String username) throws SQLException, ClassNotFoundException {
+    public Booking createCurrentBooking(User user) throws SQLException, ClassNotFoundException {
         PreparedStatement ps;
         ResultSet rs;
         String queryString = "select * from Booking where username = ? and completed = ?";
         ps = connection.prepareStatement(queryString);
-        ps.setString(1, username);
+        ps.setString(1, user.getUsername());
         ps.setBoolean(2, false);
 
         rs = ps.executeQuery();
@@ -67,7 +67,6 @@ public class BookingDAO extends AbstractDAO {
         rs.close();
 
         Seat seat = Main.seatDAO.createSeat(seatNo);
-        User user = Main.userDAO.createUser(username);
 
         return new Booking(seat, user, pending, date, completed);
     }
@@ -109,7 +108,7 @@ public class BookingDAO extends AbstractDAO {
      * @param booking the booking to be deleted
      * @throws SQLException
      */
-    private void deleteBooking(Booking booking) throws SQLException {
+    public void deleteBooking(Booking booking) throws SQLException {
         assert connection != null;
 
         String queryString = "delete from Booking where seatNo = ? and username = ? and date = DATE(?)";
@@ -289,7 +288,7 @@ public class BookingDAO extends AbstractDAO {
         LocalDate date = LocalDate.now();
 
         assert connection != null;
-        String queryString = "DELETE from Booking where date > DATE(?) and completed = ?";
+        String queryString = "DELETE from Booking where date < DATE(?) and completed = ?";
         PreparedStatement ps = connection.prepareStatement(queryString);
 
         ps.setString(1, date.toString());
