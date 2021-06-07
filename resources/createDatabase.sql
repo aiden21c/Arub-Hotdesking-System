@@ -73,8 +73,9 @@ CREATE TABLE Booking (
 --  False if booking is active
     pending BOOLEAN NOT NULL,
     date DATE NOT NULL,
+    completed BOOLEAN NOT NULL,
 
-    PRIMARY KEY (username, seatNo),
+    PRIMARY KEY (username, seatNo, date),
 
     FOREIGN KEY (username)
         REFERENCES Employee (username)

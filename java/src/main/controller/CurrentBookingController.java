@@ -41,6 +41,8 @@ public class CurrentBookingController extends AbstractController {
                     updateLabel.setText("Cannot alter Booking within 48 hours");
                     hideFields();
                 } else {checkIn.setDisable(true);}
+            } else {
+                cancel.setDisable(true);
             }
 
             bookingInfo.setText(
