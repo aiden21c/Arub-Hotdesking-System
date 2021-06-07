@@ -48,10 +48,13 @@ public class EmployeePage extends AbstractController {
 
     /**
      * Takes the user to the create new booking page
-     * @param actionEvent
+     * @param event
      */
-    public void createBooking(ActionEvent actionEvent) {
-        // TODO
-        System.out.println("createBooking clicked");
+    public void createBooking(ActionEvent event) {
+        try {
+            newScene("newBooking.fxml", event);
+        } catch (IOException e) {
+            usernameLabel.setText("Cannot find New Booking page");
+        }
     }
 }

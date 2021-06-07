@@ -1,11 +1,8 @@
 package main.model.object.user;
 
 import main.Main;
-import main.model.object.booking.Booking;
 import main.model.object.seat.Seat;
-import main.model.utilities.Utilities;
 
-import java.awt.print.Book;
 import java.sql.SQLException;
 import java.util.ArrayList;
 

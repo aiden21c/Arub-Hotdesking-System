@@ -159,7 +159,6 @@ public class EditWhiteListController extends AbstractController {
         for (int i = 0; i < editUserSingleton.getUser().getWhiteList().size(); i++) {
             int seatNo = editUserSingleton.getUser().getWhiteList().get(i).getSeatNo();
             newWhiteList.add(allSeats.get(seatNo - 1));
-//            newWhiteList.add(editUserSingleton.getUser().getWhiteList().get(i));
             rectangles.get(seatNo - 1).setFill(Color.GREEN);
         }
     }

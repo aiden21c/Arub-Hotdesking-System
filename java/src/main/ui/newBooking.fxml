@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="349.0" prefWidth="488.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.NewBookingController">
+    <Pane layoutX="8.0" layoutY="6.0" prefHeight="337.0" prefWidth="472.0">
+        <children>
+            <Line endX="133.0" layoutX="137.0" layoutY="164.0" startX="-123.0" />
+            <Line endX="-100.0" endY="180.0" layoutX="114.0" layoutY="135.0" startX="-100.5" startY="29.5" />
+            <Line endX="319.0" layoutX="138.0" layoutY="315.0" startX="-123.0" />
+            <Line endX="-100.0" endY="180.0" layoutX="557.0" layoutY="135.0" startX="-100.0" startY="-122.0" />
+            <Line endX="133.0" layoutX="322.0" layoutY="14.0" startX="-51.0" />
+            <Line endX="-100.5" endY="126.5" layoutX="371.0" layoutY="37.0" startX="-100.5" startY="-22.5" />
+
+            <Rectangle fx:id="seat1" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="296.0" layoutY="26.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat2" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="369.0" layoutY="26.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat3" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="408.0" layoutY="86.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat4" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="408.0" layoutY="153.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat5" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="408.0" layoutY="220.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat6" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="363.0" layoutY="279.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat7" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="290.0" layoutY="279.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat8" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="221.0" layoutY="279.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat9" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="148.0" layoutY="279.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat10" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="81.0" layoutY="279.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat11" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="6.0" layoutY="256.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat12" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="6.0" layoutY="189.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat13" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="102.0" layoutY="173.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat14" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="175.0" layoutY="173.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat15" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="266.0" layoutY="150.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+            <Rectangle fx:id="seat16" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="28.0" layoutX="266.0" layoutY="83.0" rotate="90.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+         <DatePicker fx:id="datePicker" layoutX="36.0" layoutY="27.0" prefHeight="27.0" prefWidth="154.0" promptText="Date To Book For" />
+         <Button fx:id="goButton" layoutX="203.0" layoutY="27.0" mnemonicParsing="false" onAction="#go" text="Go" />
+         <Label alignment="CENTER" layoutX="36.0" layoutY="70.0" text="Open" textFill="#04d31c">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Label>
+         <Label alignment="CENTER" layoutX="100.0" layoutY="70.0" text="Booked" textFill="#ff8800">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Label>
+         <Label alignment="CENTER" layoutX="178.0" layoutY="70.0" text="Locked" textFill="RED">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Label>
+         <Label fx:id="seatNo" alignment="CENTER" contentDisplay="CENTER" layoutX="35.0" layoutY="100.0" prefHeight="17.0" prefWidth="207.0">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Label>
+         <Button layoutX="34.0" layoutY="123.0" mnemonicParsing="false" onAction="#back" text="Back" />
+         <Button fx:id="bookButton" disable="true" layoutX="185.0" layoutY="123.0" mnemonicParsing="false" onAction="#book" text="Book" />
+        </children>
+    </Pane>
+
+
+</AnchorPane>

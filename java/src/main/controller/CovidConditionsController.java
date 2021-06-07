@@ -35,6 +35,8 @@ public class CovidConditionsController extends AbstractController {
      * @param event
      */
     public void setCovidConditions(ActionEvent event) {
+        //TODO doesnt work going from lockdown to covid
+
         try {
             Main.seatDAO.setCovidConditions();
             Main.bookingDAO.setCovidConditions();

@@ -65,7 +65,7 @@ public class Seat {
         }
 
         try {
-            if (!Main.bookingDAO.isBooked(seatNo, date)) {
+            if (Main.bookingDAO.isBooked(seatNo, date)) {
                 status = Available.BOOKED;
             }
         } catch (SQLException ignored) { }
