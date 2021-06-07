@@ -9,6 +9,7 @@ Packaging for classes:
  - main.controller
  - main.model
  - main.ui
+
 Packaging for test:
  - test.model
 

@@ -36,7 +36,7 @@ public class UserDAO extends AbstractDAO {
             exists = false;
         }
 
-        if (exists) {deleteUser(user.getUsername());}
+        if (exists) {deleteUser(user.getUsername(), true);}
 
         String queryString = "INSERT INTO Employee(empID, firstName, lastName, role, age, username, " +
         "password, isAdmin) VALUES (?,?,?,?,?,?,?,?)";
@@ -131,12 +131,13 @@ public class UserDAO extends AbstractDAO {
      * Deletes a user from the database
      *      First deletes values from the booking, whitelist and secret question table, before deleting user
      * @param username the username of the user to delete from the database
+     * @param update defines whether the deletion is an update or a deletion
      * @throws SQLException
      */
-    public void deleteUser(String username) throws SQLException {
+    public void deleteUser(String username, boolean update) throws SQLException {
         Main.secretQuestionDAO.deleteSecretQuestion(username);
         Main.whiteListDAO.deleteWhiteList(username);
-        Main.bookingDAO.deleteBooking(username);
+        if(!update) {Main.bookingDAO.deleteBooking(username);}
 
         assert connection != null;
 
@@ -148,6 +149,11 @@ public class UserDAO extends AbstractDAO {
         ps.close();
     }
 
+    /**
+     * Exports a CSV file of all the information about Employee entries in the database
+     * @throws SQLException
+     * @throws IOException
+     */
     public void export() throws SQLException, IOException {
         super.export("Employee NATURAL JOIN SecretQuestion ORDER BY empID");
     }

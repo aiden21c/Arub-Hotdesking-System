@@ -1,6 +1,5 @@
 package main.model.utilities;
 
-import java.security.SecureRandom;
 import java.time.LocalDate;
 
 import static java.lang.Integer.parseInt;
@@ -18,28 +17,11 @@ public class Utilities {
         return date;
     }
 
-//    /**
-//     * Creates a new password from the characters defined in the string 'chars'
-//     * @return a new 10 character password
-//     */
-//    public static String generateNewPassword() {
-//        // Characters to create te new password from
-//        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
-//        // The length of the new password
-//        int length = 10;
-//
-//        SecureRandom random = new SecureRandom();
-//        StringBuilder sb = new StringBuilder();
-//
-//        for (int i = 0; i < length; i++)
-//        {
-//            int rand = random.nextInt(chars.length());
-//            sb.append(chars.charAt(rand));
-//        }
-//
-//        return sb.toString();
-//    }
-
+    /**
+     * Takes in a string and checks whether it is a valid int
+     * @param string the string to check integer status
+     * @return
+     */
     public static int isInt(String string) {
         int x = 0;
         if (string.matches("-?(0|[1-9]\\d*)")) {

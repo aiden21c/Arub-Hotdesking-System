@@ -129,7 +129,6 @@ public class ManagementEditUser extends AbstractController {
             }
 
             try {
-                editUserSingleton.deleteUser();
                 editUserSingleton.writeToDatabase();
                 updateSuccess.setText("Update Successful");
             } catch (SQLException e) {
@@ -150,7 +149,7 @@ public class ManagementEditUser extends AbstractController {
     public void deleteUser(ActionEvent event) {
         try {
             String un = editUserSingleton.getUser().getUsername();
-            editUserSingleton.deleteUser();
+            editUserSingleton.deleteUser(false);
             heading.setText(un.toUpperCase() + " Was Deleted");
             updateSuccess.setText(un + " Was Deleted");
             hideFields();

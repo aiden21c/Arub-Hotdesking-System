@@ -61,7 +61,6 @@ public class CurrentBookingController extends AbstractController {
             bookingSingleton.deleteBooking();
             updateLabel.setText("Booking Was Deleted");
             hideFields();
-            bookingSingleton.setBooking(null);
         } catch (SQLException e) {
             updateLabel.setText("Booking could not be deleted");
             hideFields();

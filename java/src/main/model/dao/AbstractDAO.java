@@ -7,8 +7,6 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 
@@ -26,18 +24,6 @@ public abstract class AbstractDAO {
         } catch (SQLException | ClassNotFoundException throwables) {
             System.out.println("Could not connect to database");
             System.exit(1);
-        }
-    }
-
-    /**
-     * Checks whether the database is currently connected
-     * @return true if the database is connected currently. Returns false if there is no database connected.
-     */
-    public boolean isDbConnected() {
-        try {
-            return !connection.isClosed();
-        } catch (SQLException exception) {
-            return false;
         }
     }
 
@@ -137,7 +123,4 @@ public abstract class AbstractDAO {
         // Returns the number of columns in the results set
         return columnCount;
     }
-
-
-
 }

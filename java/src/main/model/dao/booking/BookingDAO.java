@@ -123,8 +123,8 @@ public class BookingDAO extends AbstractDAO {
 
     /**
      * Checks if a booking object already exists within the database
-     * @param booking the booking object to test existance of
-     * @return a boolean identifying the bookings existance in the database
+     * @param booking the booking object to test existence of
+     * @return a boolean identifying the bookings existence in the database
      * @throws SQLException
      */
     private boolean exists(Booking booking) throws SQLException {
@@ -168,14 +168,14 @@ public class BookingDAO extends AbstractDAO {
     }
 
     /**
-     * Deletes all bookings for a given seat
+     * Deletes all incomplete bookings for a given seat
      * @param seatNo the seat number for the seat to delete all bookings for
      * @throws SQLException
      */
     public void deleteBooking(int seatNo) throws SQLException {
         assert connection != null;
 
-        String queryString = "delete from Booking where seatNo = ?";
+        String queryString = "delete from Booking where seatNo = ? and completed = false";
         PreparedStatement ps = connection.prepareStatement(queryString);
         ps.setInt(TableValues.SEATNO.ordinal() + 1, seatNo);
 
@@ -298,10 +298,21 @@ public class BookingDAO extends AbstractDAO {
         ps.close();
     }
 
+    /**
+     * Calls the super method, exporting all bookings to a CSV file
+     * @throws SQLException
+     * @throws IOException
+     */
     public void export() throws SQLException, IOException {
         super.export("Booking ORDER BY date, seatNo");
     }
 
+    /**
+     * Deletes any incomplete bookings for a given seat on a specific date
+     * @param seatNo the seat number to delete incomplete bookings for
+     * @param date the given date
+     * @throws SQLException
+     */
     public void deleteIncompleteBooking(int seatNo, LocalDate date) throws SQLException {
         assert connection != null;
 
@@ -313,6 +324,4 @@ public class BookingDAO extends AbstractDAO {
         ps.execute();
         ps.close();
     }
-
-
 }

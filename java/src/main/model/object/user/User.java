@@ -137,15 +137,6 @@ public abstract class User {
     }
 
     /**
-     * Checks if the user has a current booking
-     * @return boolean identifying if any current bookings exist
-     * @throws SQLException
-     */
-    public boolean checkIfHasCurrentBooking() throws SQLException{
-        return Main.bookingDAO.checkUser(username);
-    }
-
-    /**
      * Update the whitelist, resetting it to default and then removing the given seat
      * @param seat the most recently booked seat to remove from the whitelist
      */
@@ -159,6 +150,11 @@ public abstract class User {
         }
     }
 
+    /**
+     * Checks if the secretQuestion array given is equal to the instance variable
+     * @param sq the secret question array given
+     * @return
+     */
     private boolean secretQuestionEquals(String[] sq) {
         boolean eq = false;
         if(secretQuestion[SecretQuestion.QUESTION.ordinal()].equals(sq[SecretQuestion.QUESTION.ordinal()])) {

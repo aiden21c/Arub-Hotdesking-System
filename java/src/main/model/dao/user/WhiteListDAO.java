@@ -69,24 +69,6 @@ public class WhiteListDAO extends AbstractDAO {
     }
 
     /**
-     * Deletes a whitelist entry for a given username and seat
-     * @param username the username who's whitelist entry are to be deleted
-     * @param seatNo the seat number of the relevant whitelist entry
-     * @throws SQLException if either primary key constraint, username or seatNo, fails
-     */
-    protected void deleteWhiteList(String username, int seatNo) throws SQLException {
-        assert connection != null;
-
-        String queryString = "delete from WhiteList where username = ? and seatNo = ?";
-        PreparedStatement ps = connection.prepareStatement(queryString);
-        ps.setString(TableValues.USERNAME.ordinal() + 1, username);
-        ps.setInt(TableValues.SEATNO.ordinal() + 1, seatNo);
-
-        ps.execute();
-        ps.close();
-    }
-
-    /**
      * Deletes all whitelist entries for a given username
      * @param username the user who's whitelist is to be deleted
      * @throws SQLException if a user cannot be found with this username
@@ -102,6 +84,11 @@ public class WhiteListDAO extends AbstractDAO {
         ps.close();
     }
 
+    /**
+     * Exports all the whitelist entries into a CSV file
+     * @throws SQLException
+     * @throws IOException
+     */
     public void export() throws SQLException, IOException {
         super.export("WhiteList ORDER BY username, seatNo");
     }

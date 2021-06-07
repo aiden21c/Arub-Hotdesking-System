@@ -4,7 +4,6 @@ import main.model.dao.AbstractDAO;
 import main.model.object.seat.Seat;
 import main.model.utilities.Utilities;
 
-import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -65,21 +64,6 @@ public class BlockOutDAO extends AbstractDAO {
     }
 
     /**
-     * Deletes an entry from the BlockOut table for a given date and seat number
-     * @param seatNo the seat number associated with the entry
-     * @param date the entry's date to be deleted
-     * @throws SQLException if there is no entry in the database for the given primary key
-     */
-    protected void deleteBlockOut(int seatNo, LocalDate date) throws SQLException {
-        String queryString = "DELETE FROM BlockOut WHERE seatNo = ? and date = DATE(?)";
-        PreparedStatement ps = connection.prepareStatement(queryString);
-        ps.setInt( TableValues.SEATNO.ordinal() + 1, seatNo);
-        ps.setString(TableValues.DATE.ordinal() + 1, date.toString());
-        ps.execute();
-        ps.close();
-    }
-
-    /**
      * Deletes all blockout dates for a given seat number
      * @param seatNo the seat number to delete all entries for
      * @throws SQLException if no entries exist for the given seat number
@@ -90,10 +74,6 @@ public class BlockOutDAO extends AbstractDAO {
         ps.setInt( TableValues.SEATNO.ordinal() + 1, seatNo);
         ps.execute();
         ps.close();
-    }
-
-    public void export() throws SQLException, IOException {
-        super.export("BlockOut");
     }
 
 }

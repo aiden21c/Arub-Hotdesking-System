@@ -14,7 +14,8 @@ public class Booking {
     private boolean completed;
 
     /**
-     * Constructor to create a new booking from UI. Sets pending to true
+     * Constructor to create a new booking from UI.
+     *      Sets pending to true
      */
     public Booking(Seat seat, User user, LocalDate date) {
         this.seat = seat;
@@ -71,7 +72,8 @@ public class Booking {
     }
 
     /**
-     * Updates the user's whitelist
+     * Updates the user's whitelist and completes the booking
+     * @throws SQLException
      */
     public void checkIn() throws SQLException {
         user.updateWhiteList(seat);

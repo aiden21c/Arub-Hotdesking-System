@@ -74,6 +74,5 @@ public class SecretQuestionDAO extends AbstractDAO {
 
         ps.execute();
         ps.close();
-
     }
 }

@@ -187,8 +187,4 @@ public class SeatDAO extends AbstractDAO {
         ps.execute();
         ps.close();
     }
-
-    public void export() throws SQLException, IOException {
-        super.export("Seat");
-    }
 }

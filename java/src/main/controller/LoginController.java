@@ -24,7 +24,11 @@ public class LoginController extends AbstractController {
 
     private UserSingleton userSingleton;
 
-    // Check database connection
+    /**
+     * Initialise the login page and ensure all expired booking entries are removed from the database
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources){
         userSingleton = UserSingleton.getInstance();
