@@ -161,6 +161,8 @@ public class SeatDAO extends AbstractDAO {
      * @throws SQLException
      */
     public void setCovidConditions() throws SQLException {
+        setNormalConditions();
+
         assert connection != null;
 
         String stringQuery = "UPDATE Seat SET blockOut = ? where (seatNo % 2) = 0";

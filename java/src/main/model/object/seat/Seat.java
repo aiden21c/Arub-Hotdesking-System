@@ -22,6 +22,11 @@ public class Seat {
     public int getSeatNo() {return seatNo;}
 
     public ArrayList<LocalDate> getBlockOutDates() {return blockDates;}
+    public void lockDate(LocalDate date) {blockDates.add(date);}
+
+    public void unlockDate(LocalDate date) {
+        blockDates.remove(date);
+    }
 
     public boolean getBlockOut() {return blockout;}
 

@@ -77,9 +77,6 @@ public class NewBookingController extends AbstractController {
     private BookingSingleton bookingSingleton;
     private UserSingleton userSingleton;
 
-
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         bookingSingleton = BookingSingleton.getInstance();
@@ -125,7 +122,7 @@ public class NewBookingController extends AbstractController {
             goButton.setDisable(true);
             bookButton.setDisable(true);
             seatNo.setText("Seat " + bookingSingleton.getBooking().getSeat().getSeatNo() + " Booked on " + date.getMonth() + " " + date.getDayOfMonth());
-
+            rectangles.get(bookingSingleton.getBooking().getSeat().getSeatNo() - 1).setFill(Color.ORANGE);
         } catch (SQLException e) {
             seatNo.setText("Booking Unsuccessful");
         }
@@ -168,7 +165,7 @@ public class NewBookingController extends AbstractController {
         seatX.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
-                if (!seatX.getFill().equals(Color.RED) && !seatX.getFill().equals(Color.ORANGE)) {
+                if (seatX.getFill().equals(Color.GREEN)) {
                     if (e.getButton().toString().equals("SECONDARY")) {
                         cm.show(seatX, e.getScreenX(), e.getScreenY());
                     }

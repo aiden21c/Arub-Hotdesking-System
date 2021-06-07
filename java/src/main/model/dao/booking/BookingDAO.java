@@ -299,8 +299,19 @@ public class BookingDAO extends AbstractDAO {
     }
 
     public void export() throws SQLException, IOException {
-        // TODO test this order by works
         super.export("Booking ORDER BY date, seatNo");
+    }
+
+    public void deleteIncompleteBooking(int seatNo, LocalDate date) throws SQLException {
+        assert connection != null;
+
+        String queryString = "delete from Booking where seatNo = ? and date = DATE(?) and completed = false";
+        PreparedStatement ps = connection.prepareStatement(queryString);
+        ps.setInt(TableValues.SEATNO.ordinal() + 1, seatNo);
+        ps.setString(2, date.toString());
+
+        ps.execute();
+        ps.close();
     }
 
 

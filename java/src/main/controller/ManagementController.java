@@ -16,7 +16,11 @@ public class ManagementController extends AbstractController {
     public void initialize(URL location, ResourceBundle resources) { }
 
     public void confirmBookings(ActionEvent event) {
-        //TODO
+        try {
+            newScene("confirmBookings.fxml", event);
+        } catch (IOException e) {
+            heading.setText("Cannot Access Confirm Bookings Page");
+        }
     }
 
     public void covidConditions(ActionEvent event) {
@@ -55,7 +59,7 @@ public class ManagementController extends AbstractController {
         try {
             super.back(event);
         } catch (IOException e) {
-            heading.setText("Cannot Access Admin Page");
+            heading.setText("Cannot Access Employee Page");
         }
     }
 
