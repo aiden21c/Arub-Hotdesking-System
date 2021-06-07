@@ -12,8 +12,6 @@ import main.model.dao.user.SecretQuestionDAO;
 import main.model.dao.user.UserDAO;
 import main.model.dao.user.WhiteListDAO;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

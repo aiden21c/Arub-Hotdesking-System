@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.ResourceBundle;
 
 public class EditWhiteListController extends AbstractController {
@@ -31,7 +33,7 @@ public class EditWhiteListController extends AbstractController {
     private Button save;
 
     @FXML
-    private Rectangle[] rectangles;
+    private ArrayList<Rectangle> rectangles;
 
     @FXML
     private Rectangle seat1;
@@ -66,9 +68,6 @@ public class EditWhiteListController extends AbstractController {
     @FXML
     private Rectangle seat16;
 
-    @FXML
-    ContextMenu cM1;
-
 
     private EditUserSingleton editUserSingleton;
     private ArrayList<Seat> allSeats;
@@ -87,10 +86,9 @@ public class EditWhiteListController extends AbstractController {
             updateSuccess.setText("Could Not Load Seats");
         }
 
-        setContextMenu();
-        for (int i = 0; i < rectangles.length; i++) {
-            setContextMenu(rectangles[i]);
-            rectangles[i].setFill(Color.RED);
+        for (Rectangle rectangle : rectangles) {
+            setContextMenu(rectangle);
+            rectangle.setFill(Color.RED);
         }
 
         setColours();
@@ -106,28 +104,34 @@ public class EditWhiteListController extends AbstractController {
     }
 
     public void save(ActionEvent event) {
-
+        try {
+            editUserSingleton.getUser().setWhitelist(newWhiteList);
+            editUserSingleton.writeToDatabase();
+            updateSuccess.setText("WhiteList Updated");
+        } catch (SQLException e) {
+            updateSuccess.setText("Could not save WhiteList");
+        }
     }
 
-    private void setContextMenu(Rectangle seatX) {
+    private void setContextMenu(Rectangle seatX, ContextMenu cm) {
         seatX.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent e) {
                 if (e.getButton().toString().equals("SECONDARY"))
-                    cM1.show(seatX, e.getScreenX(), e.getScreenY());
+                    cm.show(seatX, e.getScreenX(), e.getScreenY());
             }
         });
     }
 
-    private void setContextMenu() {
-        cM1 = new ContextMenu();
+    private void setContextMenu(Rectangle seatX) {
+        ContextMenu cm = new ContextMenu();
         MenuItem mi1 = new MenuItem("Lock");
         MenuItem mi2 = new MenuItem("Unlock");
 
         mi1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                updateSuccess.setText("Lock button pressed");
+                updateWhiteList(seatX, true);
                 event.consume();
             }
         });
@@ -135,51 +139,47 @@ public class EditWhiteListController extends AbstractController {
         mi2.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                updateSuccess.setText("Unlock button pressed");
+                updateWhiteList(seatX, false);
                 event.consume();
             }
         });
-        cM1.getItems().addAll(mi1, mi2);
+        cm.getItems().addAll(mi1, mi2);
+        setContextMenu(seatX, cm);
     }
 
     private void instantiateRectangleList() {
-        rectangles = new Rectangle[]{
-                seat1, seat2, seat3, seat4, seat5, seat6, seat7, seat8,
+        rectangles = new ArrayList<Rectangle>();
+        Collections.addAll(
+                rectangles, seat1, seat2, seat3, seat4, seat5, seat6, seat7, seat8,
                 seat9, seat10, seat11, seat12, seat13, seat14, seat15, seat16
-        };
+        );
     }
 
     private void setColours() {
         for (int i = 0; i < editUserSingleton.getUser().getWhiteList().size(); i++) {
             int seatNo = editUserSingleton.getUser().getWhiteList().get(i).getSeatNo();
-            newWhiteList.add(editUserSingleton.getUser().getWhiteList().get(i));
-            rectangles[seatNo - 1].setFill(Color.GREEN);
+            newWhiteList.add(allSeats.get(seatNo - 1));
+//            newWhiteList.add(editUserSingleton.getUser().getWhiteList().get(i));
+            rectangles.get(seatNo - 1).setFill(Color.GREEN);
         }
     }
 
+    private void updateWhiteList(Rectangle seatXrect, boolean lock) {
+        int index = rectangles.indexOf(seatXrect);
+        Seat seatX = allSeats.get(index);
 
-
-
-    /*
-    private class CustomContextMenu extends ContextMenu {
-        public CustomContextMenu(Rectangle rectangle) {
-            MenuItem mi1 = new MenuItem("Lock");
-            MenuItem mi2 = new MenuItem("Unlock");
-            setMenuItemEvent(mi1, rectangle);
-            setMenuItemEvent(mi2, rectangle);
-
-            getItems().addAll(mi1, mi2);
-        }
-
-        private void setMenuItemEvent(MenuItem m, Rectangle r) {
-            m.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    updateSuccess.setText(r.toString() + "lock");
-                    event.consume();
-                }
-            });
+        if(newWhiteList.contains(seatX)) {
+            if (lock) {
+                newWhiteList.remove(seatX);
+                rectangles.get(seatX.getSeatNo() - 1).setFill(Color.RED);
+                updateSuccess.setText(seatXrect.getId().toUpperCase() + " Locked");
+            }
+        } else {
+            if (!lock) {
+                newWhiteList.add(seatX);
+                rectangles.get(seatX.getSeatNo() - 1).setFill(Color.GREEN);
+                updateSuccess.setText(seatXrect.getId().toUpperCase() + " Unlocked");
+            }
         }
     }
-     */
 }

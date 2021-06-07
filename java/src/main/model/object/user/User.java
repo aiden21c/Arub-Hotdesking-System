@@ -99,6 +99,9 @@ public abstract class User {
     }
 
     public ArrayList<Seat> getWhiteList() {return whitelist;}
+    public void setWhitelist(ArrayList<Seat> whitelist) {
+        this.whitelist = whitelist;
+    }
 
     /**
      * Takes in a user, and checks if the values of the user given are equal to it's own instance values
@@ -168,6 +171,5 @@ public abstract class User {
         }
         return eq;
     }
-
 
 }

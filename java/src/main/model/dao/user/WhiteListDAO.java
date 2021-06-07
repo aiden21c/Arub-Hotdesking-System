@@ -103,6 +103,6 @@ public class WhiteListDAO extends AbstractDAO {
     }
 
     public void export() throws SQLException, IOException {
-        super.export("WhiteList");
+        super.export("WhiteList ORDER BY username, seatNo");
     }
 }

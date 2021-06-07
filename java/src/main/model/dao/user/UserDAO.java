@@ -149,7 +149,7 @@ public class UserDAO extends AbstractDAO {
     }
 
     public void export() throws SQLException, IOException {
-        super.export("Employee NATURAL JOIN SecretQuestion");
+        super.export("Employee NATURAL JOIN SecretQuestion ORDER BY empID");
     }
 
 }

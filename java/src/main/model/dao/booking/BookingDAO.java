@@ -299,7 +299,8 @@ public class BookingDAO extends AbstractDAO {
     }
 
     public void export() throws SQLException, IOException {
-        super.export("Booking");
+        // TODO test this order by works
+        super.export("Booking ORDER BY date, seatNo");
     }
 
 
