@@ -53,23 +53,23 @@ Readme files are made for developers (including you), but also could be used for
 So while you are writing your readme files please consider a few things:
 
 1. What is about?
-    - Your name and student number and course name on the top
-    - Describe the content of your project or repository
-    - Explain things the users would have a hard time understanding right away
+    ~~- Your name and student number and course name on the top~~
+    ~~- Describe the content of your project or repository~~
+    ~~- Explain things the users would have a hard time understanding right away~~
 2. What steps need to be taken?
     - Any specific steps for running your application, what is the main class?
-    - Is there any requirements or dependencies?
+    _- Are there any requirements or dependencies?_
     - After the installation, how they compile or run the code?
 3. Execution examples
     - You could provide examples of execution with code and screenshots
     
 
-other things you could add:
+Other things you could add:
 
-- Table of content
-- Test cases
-- Know bugs
-- Things that have not been working or complete
+~~- Table of content~~
+~~- Test cases~~
+~~- Known bugs~~
+~~- Things that have not been working or complete~~
 
 
 
