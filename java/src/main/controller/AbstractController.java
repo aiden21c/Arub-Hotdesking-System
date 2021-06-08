@@ -21,7 +21,7 @@ public abstract class AbstractController implements Initializable {
      */
     public void newScene(String sceneURL, ActionEvent event) throws IOException {
         Main.fxmlval.add(sceneURL);
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../ui/" + sceneURL));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../ui/" + sceneURL));
         Parent root = fxmlLoader.load();
         Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
         primaryStage.setScene(new Scene(root));

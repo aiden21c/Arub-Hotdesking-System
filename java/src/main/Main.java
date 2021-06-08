@@ -27,7 +27,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        String url = "login.fxml";
+        String url = "login/login.fxml";
         fxmlval.add(url);
         Parent root = FXMLLoader.load(getClass().getResource("ui/" + url));
         Scene scene = new Scene(root);

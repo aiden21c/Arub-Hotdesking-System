@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="349.0" prefWidth="488.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controller.managementController.CovidConditionsController">
+   <children>
+      <Label alignment="CENTER" layoutX="114.0" layoutY="37.0" text="Set Covid Conditions">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label fx:id="updateLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="56.0" layoutY="262.0" prefHeight="17.0" prefWidth="379.0" textFill="#18a805" />
+      <Button layoutX="113.0" layoutY="112.0" mnemonicParsing="false" onAction="#setNormalConditions" prefHeight="35.0" prefWidth="264.0" text="Set Normal Conditions">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="113.0" layoutY="158.0" mnemonicParsing="false" onAction="#setCovidConditions" prefHeight="35.0" prefWidth="264.0" text="Set COVID Conditions">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="113.0" layoutY="203.0" mnemonicParsing="false" onAction="#setLockdownConditions" prefHeight="35.0" prefWidth="264.0" text="Set Lockdown Conditions">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button layoutX="177.0" layoutY="291.0" mnemonicParsing="false" onAction="#back" prefHeight="27.0" prefWidth="134.0" text="Done">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
