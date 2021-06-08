@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import main.controller.singleton.UserSingleton;
-import main.model.object.user.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -16,6 +15,10 @@ public class EmployeePage extends AbstractController {
 
     private UserSingleton userSingleton;
 
+    /**
+     * Initializes the scene
+     *      Initialises an instance of the UserSingleton class
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userSingleton = UserSingleton.getInstance();

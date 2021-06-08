@@ -49,6 +49,10 @@ public class AddEmployeeController extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) { }
 
+    /**
+     * Obtains information from the input fields and creates a new Employee
+     * @param event
+     */
     public void addUser(ActionEvent event) {
         clearLabels();
         boolean success = true;
@@ -65,21 +69,17 @@ public class AddEmployeeController extends AbstractController {
             }
         } else {success = false;}
 
-        if (!firstName.getText().isEmpty()) {
-            first = firstName.getText();
-        } else {success = false;}
+        if (!firstName.getText().isEmpty()) {first = firstName.getText();}
+        else {success = false;}
 
-        if (!lastName.getText().isEmpty()) {
-            last = lastName.getText();
-        } else {success = false;}
+        if (!lastName.getText().isEmpty()) {last = lastName.getText();}
+        else {success = false;}
 
-        if (!role.getText().isEmpty()) {
-            r = role.getText();
-        } else {success = false;}
+        if (!role.getText().isEmpty()) {r = role.getText();}
+        else {success = false;}
 
-        if (!username.getText().isEmpty()) {
-            un = username.getText();
-        } else {success = false;}
+        if (!username.getText().isEmpty()) {un = username.getText();}
+        else {success = false;}
 
         if (!age.getText().isEmpty()) {
             a = Utilities.isInt(age.getText());
@@ -89,9 +89,8 @@ public class AddEmployeeController extends AbstractController {
             }
         } else {success = false;}
 
-        if (!password.getText().isEmpty()) {
-            pw = password.getText();
-        } else {success = false;}
+        if (!password.getText().isEmpty()) {pw = password.getText();}
+        else {success = false;}
 
         if (!secretQ.getText().isEmpty()) {
             secretQuestion[User.SecretQuestion.QUESTION.ordinal()] = secretQ.getText();
@@ -117,16 +116,12 @@ public class AddEmployeeController extends AbstractController {
                     usernameError.setText("Username Already Exists");
                     regFail();
                 }
-            } catch (SQLException e) {
-                regFail();
-            }
-        } else {
-            regFail();
-        }
+            } catch (SQLException e) {regFail();}
+        } else {regFail();}
     }
 
     /**
-     * Takes the user back to the login page
+     * Takes the user back to the management page
      * @param event
      */
     public void back(ActionEvent event) {

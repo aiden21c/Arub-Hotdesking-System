@@ -41,6 +41,11 @@ public class EditUser extends AbstractController {
 
     private UserSingleton userSingleton;
 
+    /**
+     * Initializes the scene by instantiating the text fields with the current user attributes
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userSingleton = UserSingleton.getInstance();
@@ -68,22 +73,17 @@ public class EditUser extends AbstractController {
         boolean success = true;
         String first, last, r, pw;
         first = last = r = pw = null;
-        String un = userSingleton.getUser().getUsername();
-        int empID = userSingleton.getUser().getEmpID();
         int a = 0;
         String[] secretQuestion = new String[2];
 
-        if (!firstName.getText().isEmpty()) {
-                first = firstName.getText();
-        } else {success = false;}
+        if (!firstName.getText().isEmpty()) {first = firstName.getText();}
+        else {success = false;}
 
-        if (!lastName.getText().isEmpty()) {
-            last = lastName.getText();
-        } else {success = false;}
+        if (!lastName.getText().isEmpty()) {last = lastName.getText();}
+        else {success = false;}
 
-        if (!role.getText().isEmpty()) {
-            r = role.getText();
-        } else {success = false;}
+        if (!role.getText().isEmpty()) {r = role.getText();}
+        else {success = false;}
 
         if (!age.getText().isEmpty()) {
             a = Utilities.isInt(age.getText());
@@ -93,9 +93,8 @@ public class EditUser extends AbstractController {
             }
         } else {success = false;}
 
-        if (!password.getText().isEmpty()) {
-            pw = password.getText();
-        } else {success = false;}
+        if (!password.getText().isEmpty()) {pw = password.getText();}
+        else {success = false;}
 
         if (!secretQ.getText().isEmpty()) {
             secretQuestion[User.SecretQuestion.QUESTION.ordinal()] = secretQ.getText();

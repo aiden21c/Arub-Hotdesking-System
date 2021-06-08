@@ -30,6 +30,8 @@ public class NewBookingController extends AbstractController {
     private Button bookButton;
     @FXML
     private Button goButton;
+    @FXML
+    private Button cancelButton;
 
     @FXML
     private DatePicker datePicker;
@@ -77,6 +79,13 @@ public class NewBookingController extends AbstractController {
     private BookingSingleton bookingSingleton;
     private UserSingleton userSingleton;
 
+    /**
+     * Initializes the scene
+     * Ensures the user cannot make a second booking if they already have a current booking
+     *
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         bookingSingleton = BookingSingleton.getInstance();
@@ -89,7 +98,7 @@ public class NewBookingController extends AbstractController {
             hasCurrentBooking = false;
         }
 
-        if(!hasCurrentBooking) {
+        if (!hasCurrentBooking) {
             instantiateRectangleList();
             try {
                 allSeats = Main.seatDAO.getAllSeats();
@@ -102,11 +111,17 @@ public class NewBookingController extends AbstractController {
         }
     }
 
+    /**
+     * Ensures the date selected is 2 or more days in the future
+     * Displays the current booking outlay of seats on the given date
+     *
+     * @param event
+     */
     public void go(ActionEvent event) {
         seatNo.setText("");
         LocalDate now = LocalDate.now();
         LocalDate earliestAvail = now.plusDays(2);
-        if(datePicker.getValue() != null) {
+        if (datePicker.getValue() != null) {
             date = datePicker.getValue();
             if (date.isBefore(earliestAvail)) {
                 seatNo.setText("Date Invalid");
@@ -116,6 +131,11 @@ public class NewBookingController extends AbstractController {
         }
     }
 
+    /**
+     * Confirms the booking of the seat selected for the user on the given date and writes to database
+     *
+     * @param event
+     */
     public void book(ActionEvent event) {
         try {
             bookingSingleton.writeToDatabase();
@@ -128,7 +148,11 @@ public class NewBookingController extends AbstractController {
         }
     }
 
-
+    /**
+     * Takes the user back to the employee page
+     *
+     * @param event
+     */
     public void back(ActionEvent event) {
         try {
             bookingSingleton.setBooking(null);
@@ -138,6 +162,9 @@ public class NewBookingController extends AbstractController {
         }
     }
 
+    /**
+     * Adds all the seat rectangles to the rectangle array
+     */
     private void instantiateRectangleList() {
         rectangles = new ArrayList<Rectangle>();
         Collections.addAll(
@@ -146,21 +173,30 @@ public class NewBookingController extends AbstractController {
         );
     }
 
+    /**
+     * Prepares the seat rectangle colours, sets the context menu for only green rectangles
+     */
     private void prepareSeats() {
-        for(int i = 0; i < allSeats.size(); i++) {
-            if(allSeats.get(i).isLockedOnDate(date).equals(Seat.Available.LOCKED)) {
+        for (int i = 0; i < allSeats.size(); i++) {
+            if (allSeats.get(i).isLockedOnDate(date).equals(Seat.Available.LOCKED)) {
                 rectangles.get(i).setFill(Color.RED);
 
-            } else if(allSeats.get(i).isLockedOnDate(date).equals(Seat.Available.BOOKED)) {
+            } else if (allSeats.get(i).isLockedOnDate(date).equals(Seat.Available.BOOKED)) {
                 rectangles.get(i).setFill(Color.ORANGE);
 
-            } else if(allSeats.get(i).isLockedOnDate(date).equals(Seat.Available.OPEN)) {
+            } else if (allSeats.get(i).isLockedOnDate(date).equals(Seat.Available.OPEN)) {
                 rectangles.get(i).setFill(Color.GREEN);
-                setContextMenu(rectangles.get(i));
             }
+            setContextMenu(rectangles.get(i));
         }
     }
 
+    /**
+     * Sets the context menu given for the given rectangle seat
+     *
+     * @param seatX the seat the context menu is being set for
+     * @param cm    the context menu being set
+     */
     private void setContextMenu(Rectangle seatX, ContextMenu cm) {
         seatX.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -174,6 +210,11 @@ public class NewBookingController extends AbstractController {
         });
     }
 
+    /**
+     * Instantiates a new context menu associated with the given seat
+     *
+     * @param seatX the seat the context menu is being set for
+     */
     private void setContextMenu(Rectangle seatX) {
         ContextMenu cm = new ContextMenu();
         MenuItem mi1 = new MenuItem("Book");
@@ -190,6 +231,10 @@ public class NewBookingController extends AbstractController {
         setContextMenu(seatX, cm);
     }
 
+    /**
+     * Places the seat selected in 'booking pending' mode, waiting for the user to confirm the booking
+     * @param seatXrect the rectangle associated with the seat being booked
+     */
     private void book(Rectangle seatXrect) {
         bookingSingleton.setBooking(null);
         int seatIndex = rectangles.indexOf(seatXrect);
@@ -197,6 +242,23 @@ public class NewBookingController extends AbstractController {
         bookingSingleton.setBooking(booking);
 
         seatNo.setText("Booking for Seat " + bookingSingleton.getBooking().getSeat().getSeatNo());
+        seatXrect.setFill(Color.ORANGE);
+        goButton.setDisable(true);
         bookButton.setDisable(false);
+        cancelButton.setDisable(false);
+    }
+
+    /**
+     * Cancels the booking in pending state
+     * @param event
+     */
+    public void cancel(ActionEvent event) {
+        int rectanglesIndex = allSeats.indexOf(bookingSingleton.getBooking().getSeat());
+        rectangles.get(rectanglesIndex).setFill(Color.GREEN);
+        goButton.setDisable(false);
+        bookButton.setDisable(true);
+        cancelButton.setDisable(true);
+        seatNo.setText("");
+        bookingSingleton.setBooking(null);
     }
 }

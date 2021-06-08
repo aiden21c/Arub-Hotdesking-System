@@ -27,6 +27,11 @@ public abstract class AbstractController implements Initializable {
         primaryStage.setScene(new Scene(root));
     }
 
+    /**
+     * Takes the user back to the previous page they were on
+     * @param event
+     * @throws IOException
+     */
     public void back(ActionEvent event) throws IOException {
         int count = Main.fxmlval.size() - 2;
 
@@ -38,7 +43,6 @@ public abstract class AbstractController implements Initializable {
         while (Main.fxmlval.size() - count != 0){
             Main.fxmlval.remove(Main.fxmlval.size() - 1);
         }
-
         newScene(newScene, event);
     }
 }

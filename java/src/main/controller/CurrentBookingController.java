@@ -27,6 +27,14 @@ public class CurrentBookingController extends AbstractController {
     private UserSingleton userSingleton;
     private BookingSingleton bookingSingleton;
 
+    /**
+     * Initializes the scene by setting the labels and buttons to initial states
+     *      Instantiates the booking and user singleton classes
+     *      Ensures that current bookings cannot be cancelled within 48 hours
+     *      Ensures checkin is only available on the date of the booking
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         LocalDate today = LocalDate.now();
@@ -56,6 +64,10 @@ public class CurrentBookingController extends AbstractController {
         }
     }
 
+    /**
+     * Cancels the current booking
+     * @param event
+     */
     public void cancel(ActionEvent event) {
         try {
             bookingSingleton.deleteBooking();
@@ -67,6 +79,10 @@ public class CurrentBookingController extends AbstractController {
         }
     }
 
+    /**
+     * Sets the current booking status to completed and updates the user whitelist
+     * @param event
+     */
     public void checkIn(ActionEvent event) {
         try {
             bookingSingleton.getBooking().checkIn();
@@ -80,15 +96,22 @@ public class CurrentBookingController extends AbstractController {
         }
     }
 
+    /**
+     * Takes the user back to the employee page
+     * @param event
+     */
     public void back(ActionEvent event) {
         try {
             bookingSingleton.setBooking(null);
             super.back(event);
         } catch (IOException e) {
-            updateLabel.setText("Cannot Access Admin Page");
+            updateLabel.setText("Cannot Access Employee Page");
         }
     }
 
+    /**
+     * Disables both the cancel and checkin button
+     */
     private void hideFields() {
         cancel.setDisable(true);
         checkIn.setDisable(true);

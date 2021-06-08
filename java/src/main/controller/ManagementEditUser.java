@@ -6,7 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import main.Main;
 import main.controller.singleton.EditUserSingleton;
 import main.model.object.user.Admin;
 import main.model.object.user.Employee;
@@ -54,6 +53,11 @@ public class ManagementEditUser extends AbstractController {
 
     private EditUserSingleton editUserSingleton;
 
+    /**
+     * Initializes the edit user page, setting the text fields to the user's current information
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         editUserSingleton = EditUserSingleton.getInstance();
@@ -87,17 +91,14 @@ public class ManagementEditUser extends AbstractController {
         int a = 0;
         String[] secretQuestion = new String[2];
 
-        if (!firstName.getText().isEmpty()) {
-                first = firstName.getText();
-        } else {success = false;}
+        if (!firstName.getText().isEmpty()) {first = firstName.getText();}
+        else {success = false;}
 
-        if (!lastName.getText().isEmpty()) {
-            last = lastName.getText();
-        } else {success = false;}
+        if (!lastName.getText().isEmpty()) {last = lastName.getText();}
+        else {success = false;}
 
-        if (!role.getText().isEmpty()) {
-            r = role.getText();
-        } else {success = false;}
+        if (!role.getText().isEmpty()) {r = role.getText();}
+        else {success = false;}
 
         if (!age.getText().isEmpty()) {
             a = Utilities.isInt(age.getText());
@@ -107,9 +108,8 @@ public class ManagementEditUser extends AbstractController {
             }
         } else {success = false;}
 
-        if (!password.getText().isEmpty()) {
-            pw = password.getText();
-        } else {success = false;}
+        if (!password.getText().isEmpty()) {pw = password.getText();}
+        else {success = false;}
 
         if (!secretQ.getText().isEmpty()) {
             secretQuestion[User.SecretQuestion.QUESTION.ordinal()] = secretQ.getText();
@@ -131,12 +131,8 @@ public class ManagementEditUser extends AbstractController {
             try {
                 editUserSingleton.writeToDatabase();
                 updateSuccess.setText("Update Successful");
-            } catch (SQLException e) {
-                updateFail();
-            }
-        } else {
-            updateFail();
-        }
+            } catch (SQLException e) {updateFail();}
+        } else {updateFail();}
     }
 
     /**
@@ -146,6 +142,10 @@ public class ManagementEditUser extends AbstractController {
         updateSuccess.setText("Update Failed");
     }
 
+    /**
+     * Deletes the current user from the database
+     * @param event
+     */
     public void deleteUser(ActionEvent event) {
         try {
             String un = editUserSingleton.getUser().getUsername();
@@ -157,9 +157,12 @@ public class ManagementEditUser extends AbstractController {
         } catch (SQLException e) {
             updateSuccess.setText("User could not be deleted");
         }
-
     }
 
+    /**
+     * Takes the user to the edit whitelist page
+     * @param event
+     */
     public void editWhitelist(ActionEvent event) {
         try {
             newScene("editWhitelist.fxml", event);
@@ -182,6 +185,9 @@ public class ManagementEditUser extends AbstractController {
         }
     }
 
+    /**
+     * Ensures the only available control element to be interacted with is the back button
+     */
     private void hideFields() {
         firstName.setEditable(false);
         lastName.setEditable(false);

@@ -66,7 +66,7 @@ public class CovidConditionsController extends AbstractController {
         try {
             super.back(event);
         } catch (IOException e) {
-            updateLabel.setText("Cannot Access CovidConditions Page");
+            updateLabel.setText("Cannot Access management Page");
         }
     }
 

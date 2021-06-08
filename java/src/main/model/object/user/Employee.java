@@ -6,12 +6,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Employee extends User {
+    /**
+     * Creates a new employee from a pre-existing database entrie
+     */
     public Employee(int empID, String firstName, String lastName, String role, int age,
                     String username, String password, String[] secretQuestion, ArrayList<Seat> whitelist) {
 
         super(empID, firstName, lastName, role, age, username, password, secretQuestion, whitelist);
     }
 
+    /**
+     * Creates a new employee from scratch
+     */
     public Employee(int empID, String firstName, String lastName, String role, int age,
                    String username, String password, String[] secretQuestion) throws SQLException {
         super(empID, firstName, lastName, role, age, username, password, secretQuestion);

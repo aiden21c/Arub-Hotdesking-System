@@ -67,8 +67,4 @@ public class PasswordReset extends AbstractController {
             resetSuccessful.setText("Cannot Access Login Page");
         }
     }
-
-
-
-
 }

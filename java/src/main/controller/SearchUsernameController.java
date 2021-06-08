@@ -21,6 +21,11 @@ public class SearchUsernameController extends AbstractController {
     private EditUserSingleton editUserSingleton;
     private UserSingleton userSingleton;
 
+    /**
+     * Initialises the user singleton and EditUser singleton instances
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userSingleton = UserSingleton.getInstance();
@@ -28,6 +33,11 @@ public class SearchUsernameController extends AbstractController {
         editUserSingleton.setUser(null);
     }
 
+    /**
+     * Searches for a user in the database matching the username given
+     *      Ensures the username given is not equal to the current logged in admin
+     * @param event
+     */
     public void search(ActionEvent event) {
         try {
             if(!username.getText().equalsIgnoreCase(userSingleton.getUser().getUsername())) {
@@ -43,6 +53,10 @@ public class SearchUsernameController extends AbstractController {
         }
     }
 
+    /**
+     * Takes the user back to the management page
+     * @param event
+     */
     public void back(ActionEvent event) {
         try {
             editUserSingleton.setUser(null);

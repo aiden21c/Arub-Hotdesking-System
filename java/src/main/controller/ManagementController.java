@@ -15,6 +15,10 @@ public class ManagementController extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) { }
 
+    /**
+     * Takes the user to the confirm bookings page
+     * @param event
+     */
     public void confirmBookings(ActionEvent event) {
         try {
             newScene("confirmBookings.fxml", event);
@@ -23,6 +27,10 @@ public class ManagementController extends AbstractController {
         }
     }
 
+    /**
+     * Takes the user to the covid conditions page
+     * @param event
+     */
     public void covidConditions(ActionEvent event) {
         try {
             newScene("covidConditions.fxml", event);
@@ -31,6 +39,10 @@ public class ManagementController extends AbstractController {
         }
     }
 
+    /**
+     * Takes the user to the add employee page
+     * @param event
+     */
     public void addEmployee(ActionEvent event) {
         try {
             newScene("addEmployee.fxml", event);
@@ -39,6 +51,10 @@ public class ManagementController extends AbstractController {
         }
     }
 
+    /**
+     * Takes the user to the edit employee page
+     * @param event
+     */
     public void editEmployee(ActionEvent event) {
         try {
             newScene("searchUsername.fxml", event);
@@ -47,6 +63,10 @@ public class ManagementController extends AbstractController {
         }
     }
 
+    /**
+     * Takes the user to the generate reports page
+     * @param event
+     */
     public void generateReports(ActionEvent event) {
         try {
             newScene("generateReports.fxml", event);
@@ -55,6 +75,10 @@ public class ManagementController extends AbstractController {
         }
     }
 
+    /**
+     * Takes the user back to the standard employee page
+     * @param event
+     */
     public void back(ActionEvent event) {
         try {
             super.back(event);

@@ -16,12 +16,21 @@ public class UserSettings extends AbstractController {
 
     private UserSingleton userSingleton;
 
+    /**
+     * Initialises the user settings page with the current logged in user
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         userSingleton = UserSingleton.getInstance();
         heading.setText("User Settings For\n" + userSingleton.getUser().getUsername());
     }
 
+    /**
+     * Takes the user to the edit user page
+     * @param event
+     */
     public void editUser(ActionEvent event) {
         try {
             newScene("editUser.fxml", event);
@@ -30,6 +39,10 @@ public class UserSettings extends AbstractController {
         }
     }
 
+    /**
+     * Logs the user out of the system
+     * @param event
+     */
     public void logout(ActionEvent event) {
         try {
             newScene("login.fxml", event);
@@ -38,6 +51,10 @@ public class UserSettings extends AbstractController {
         }
     }
 
+    /**
+     * Takes the user back to the employee page
+     * @param event
+     */
     public void back(ActionEvent event) {
         try {
             super.back(event);

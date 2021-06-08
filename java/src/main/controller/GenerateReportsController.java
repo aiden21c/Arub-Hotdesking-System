@@ -17,6 +17,10 @@ public class GenerateReportsController extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) { }
 
+    /**
+     * Creates a CSV file containing all the bookings in the database
+     * @param event
+     */
     public void generateBookingReport(ActionEvent event) {
         try {
             Main.bookingDAO.export();
@@ -26,6 +30,12 @@ public class GenerateReportsController extends AbstractController {
         }
     }
 
+    /**
+     * Creates two CSV files
+     *      One containing all the employee data
+     *      One containing all whitelist information for all employees
+     * @param event
+     */
     public void generateEmployeeReport(ActionEvent event) {
         try {
             Main.userDAO.export();
@@ -44,7 +54,7 @@ public class GenerateReportsController extends AbstractController {
         try {
             super.back(event);
         } catch (IOException e) {
-            updateLabel.setText("Cannot Access CovidConditions Page");
+            updateLabel.setText("Cannot Access Management Page");
         }
     }
 

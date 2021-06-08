@@ -65,7 +65,11 @@ public class ConfirmBookingController extends AbstractController {
 
     private ArrayList<Seat> allSeats;
 
-
+    /**
+     * Initializes the scene by initialising the allSeats array and the rectangle array
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         instantiateRectangleList();
@@ -76,6 +80,9 @@ public class ConfirmBookingController extends AbstractController {
         }
     }
 
+    /**
+     * Adds all the rectangle objects into an arraylist
+     */
     private void instantiateRectangleList() {
         rectangles = new ArrayList<Rectangle>();
         Collections.addAll(
@@ -84,6 +91,11 @@ public class ConfirmBookingController extends AbstractController {
         );
     }
 
+    /**
+     * Sets up te GUI for seats on the given date
+     *      Displays the current booking outlay of seats on the given date
+     * @param event
+     */
     public void go(ActionEvent event) {
         updateSuccess.setText("");
         LocalDate now = LocalDate.now();
@@ -104,6 +116,12 @@ public class ConfirmBookingController extends AbstractController {
         }
     }
 
+    /**
+     * Prepares the seat colours based on their status on the given date
+     *      Adds a context menu to each seat rectangle
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     private void prepareSeats() throws SQLException, ClassNotFoundException {
         for (int i = 0; i < allSeats.size(); i++) {
             if (allSeats.get(i).isLockedOnDate(date).equals(Seat.Available.LOCKED)) {
@@ -124,6 +142,11 @@ public class ConfirmBookingController extends AbstractController {
         }
     }
 
+    /**
+     * Sets up the context menu for each rectangle
+     * @param seatX
+     * @param cm
+     */
     private void setContextMenu(Rectangle seatX, ContextMenu cm) {
         seatX.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
@@ -151,6 +174,10 @@ public class ConfirmBookingController extends AbstractController {
         });
     }
 
+    /**
+     * Creates a new context menu for the given seat
+     * @param seatX the seat rectangle to create the context menu for
+     */
     private void setContextMenu(Rectangle seatX) {
         ContextMenu cm = new ContextMenu();
         MenuItem mi1 = new MenuItem("Release");
@@ -198,6 +225,10 @@ public class ConfirmBookingController extends AbstractController {
         setContextMenu(seatX, cm);
     }
 
+    /**
+     * Takes the user back to the management page
+     * @param event
+     */
     public void back(ActionEvent event) {
         try {
             super.back(event);
@@ -206,10 +237,20 @@ public class ConfirmBookingController extends AbstractController {
         }
     }
 
+    /**
+     * Returns the index of the rectangle in the rectangle array
+     * @param seatX the rectangle to find the index of
+     * @return the index of the rectangle in the array
+     */
     private int getIndex(Rectangle seatX) {
         return rectangles.indexOf(seatX);
     }
 
+    /**
+     * Locks the seat for a given date, adding a new entry in the BlockOut table
+     * @param seatX the rectangle that the seat is aligned with
+     * @throws SQLException
+     */
     private void lock(Rectangle seatX) throws SQLException {
         Seat seat = allSeats.get(getIndex(seatX));
         if (!seat.getBlockOut()) {
@@ -225,6 +266,12 @@ public class ConfirmBookingController extends AbstractController {
         }
     }
 
+    /**
+     * Accepts the booking for the given seat
+     * @param seatX the rectangle that the seat is aligned with
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
     private void accept(Rectangle seatX) throws SQLException, ClassNotFoundException {
         Seat seat = allSeats.get(getIndex(seatX));
         if (!seat.getBlockOut()) {
@@ -240,6 +287,13 @@ public class ConfirmBookingController extends AbstractController {
         }
     }
 
+    /**
+     * Releases the booking from all status and sets it to open
+     *      If a booking is present for the seat, the booking is deleted
+     *      If the seat is blocked out for the date, the BlockOut entry is deleted and the seat is openned
+     * @param seatX the rectangle that the seat is aligned with
+     * @throws SQLException
+     */
     private void release(Rectangle seatX) throws SQLException {
         Seat seat = allSeats.get(getIndex(seatX));
         if (!seat.getBlockOut()) {
@@ -261,9 +315,4 @@ public class ConfirmBookingController extends AbstractController {
             updateSuccess.setText("Seat COVID Locked");
         }
     }
-
-
-
-
-
 }

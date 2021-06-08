@@ -67,21 +67,17 @@ public class RegisterController extends AbstractController {
             }
         } else {success = false;}
 
-        if (!firstName.getText().isEmpty()) {
-            first = firstName.getText();
-        } else {success = false;}
+        if (!firstName.getText().isEmpty()) {first = firstName.getText();}
+        else {success = false;}
 
-        if (!lastName.getText().isEmpty()) {
-            last = lastName.getText();
-        } else {success = false;}
+        if (!lastName.getText().isEmpty()) {last = lastName.getText();}
+        else {success = false;}
 
-        if (!role.getText().isEmpty()) {
-            r = role.getText();
-        } else {success = false;}
+        if (!role.getText().isEmpty()) {r = role.getText();}
+        else {success = false;}
 
-        if (!username.getText().isEmpty()) {
-            un = username.getText();
-        } else {success = false;}
+        if (!username.getText().isEmpty()) {un = username.getText();}
+        else {success = false;}
 
         if (!age.getText().isEmpty()) {
             a = Utilities.isInt(age.getText());
@@ -91,9 +87,8 @@ public class RegisterController extends AbstractController {
             }
         } else {success = false;}
 
-        if (!password.getText().isEmpty()) {
-            pw = password.getText();
-        } else {success = false;}
+        if (!password.getText().isEmpty()) {pw = password.getText();}
+        else {success = false;}
 
         if (!secretQ.getText().isEmpty()) {
             secretQuestion[User.SecretQuestion.QUESTION.ordinal()] = secretQ.getText();
@@ -113,12 +108,8 @@ public class RegisterController extends AbstractController {
                     usernameError.setText("Username Already Exists");
                     regFail();
                 }
-            } catch (SQLException e) {
-                regFail();
-            }
-        } else {
-            regFail();
-        }
+            } catch (SQLException e) {regFail();}
+        } else {regFail();}
     }
 
     /**
