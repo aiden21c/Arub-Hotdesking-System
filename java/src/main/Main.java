@@ -29,7 +29,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         String url = "login/login.fxml";
         fxmlval.add(url);
-        Parent root = FXMLLoader.load(getClass().getResource("ui/" + url));
+        Parent root = FXMLLoader.load(getClass().getResource("/" + url));
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);

@@ -44,26 +44,14 @@ seats for specific dates in the future.
 | <b>Management Page</b>| <b>Confirm Bookings Page</b>|
 
 ## Installation
+In order to install this project, the `.zip` file can simply be downloaded from the git repository.
+From there, the file titled `FP_A2.jar` within the `application` directory can be run from the file explorer, 
+on any machine that has Java installed.
 
-[comment]: <> (OS X & Linux:)
-
-[comment]: <> (```sh)
-
-[comment]: <> (npm install my-crazy-module --save)
-
-[comment]: <> (```)
-
-[comment]: <> (Windows:)
-
-[comment]: <> (```sh)
-
-[comment]: <> (edit autoexec.bat)
-
-[comment]: <> (```)
+The application must be run utilising this `.jar` file to correctly access the database.
 
 ## Development setup
-The sqlite dependency must be present within a directory called `lib` under the root directory. This dependency is a `.jar` file and 
-can be downloaded from [https://www.sqlite.org/](https://www.sqlite.org/download.html).
+All dependencies for this application are present within the `application` directory of the project.
 
 # Packaging
 **The main class is Main.java**
