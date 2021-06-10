@@ -48,8 +48,7 @@ In order to install this project, the `.zip` file can simply be downloaded from 
 From there, the file titled `FP_A2.jar` within the `application` directory can be run from the file explorer, 
 on any machine that has Java installed.
 
-The application **must** be run utilising this `.jar` file to correctly access the database, as this application is initialized for clients to 
-utilise without any back-end set-up required.
+The application **must** be run utilising this `.jar` file to correctly access the database. It also must be run from within a file explorer **not** within an IDE, as this application is initialized for clients to utilise without any back-end set-up required.
 
 ## Development Setup
 All dependencies for this application are present within the `application` directory of the project.
