@@ -180,14 +180,18 @@ public class NewBookingController extends AbstractController {
      */
     private void prepareSeats() {
         for (int i = 0; i < allSeats.size(); i++) {
-            if (allSeats.get(i).isLockedOnDate(date).equals(Seat.Available.LOCKED)) {
+            if(!isWhiteListed(allSeats.get(i))) {
                 rectangles.get(i).setFill(Color.RED);
+            } else {
+                if (allSeats.get(i).isLockedOnDate(date).equals(Seat.Available.LOCKED)) {
+                    rectangles.get(i).setFill(Color.RED);
 
-            } else if (allSeats.get(i).isLockedOnDate(date).equals(Seat.Available.BOOKED)) {
-                rectangles.get(i).setFill(Color.ORANGE);
+                } else if (allSeats.get(i).isLockedOnDate(date).equals(Seat.Available.BOOKED)) {
+                    rectangles.get(i).setFill(Color.ORANGE);
 
-            } else if (allSeats.get(i).isLockedOnDate(date).equals(Seat.Available.OPEN)) {
-                rectangles.get(i).setFill(Color.GREEN);
+                } else if (allSeats.get(i).isLockedOnDate(date).equals(Seat.Available.OPEN)) {
+                    rectangles.get(i).setFill(Color.GREEN);
+                }
             }
             setContextMenu(rectangles.get(i));
         }
@@ -264,5 +268,20 @@ public class NewBookingController extends AbstractController {
         cancelButton.setDisable(true);
         seatNo.setText("");
         bookingSingleton.setBooking(null);
+    }
+
+    /**
+     * Checks if the seat given exists within the whitelist of the user
+     * @param seat
+     * @return
+     */
+    private boolean isWhiteListed(Seat seat) {
+        boolean exists = false;
+        for(int i = 0; i < userSingleton.getUser().getWhiteList().size(); i++) {
+            if(userSingleton.getUser().getWhiteList().get(i).equals(seat)) {
+                exists = true;
+            }
+        }
+        return exists;
     }
 }
