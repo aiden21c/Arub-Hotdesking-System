@@ -86,7 +86,7 @@ public abstract class AbstractDAO {
      * @return string with format tableName_dateTime.csv
      */
     private String formatFileName(String tableName) {
-        String str = "export_files/" + tableName;
+        String str = "../export_files/" + tableName;
         // Create a new String of a LocalDate of the current date
         String dateFormat = LocalDate.now().toString();
         // Return the file name of the export file with the new formatted date attached
